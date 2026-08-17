@@ -11,6 +11,7 @@ export function TransformationsSection() {
   const [active, setActive] = useState(0)
   const current = transformationCases[active]
   const total = transformationCases.length
+  const groupedAngles = transformationCases.slice(0, 3)
 
   const go = (dir: number) => setActive((prev) => (prev + dir + total) % total)
 
@@ -30,8 +31,9 @@ export function TransformationsSection() {
           </div>
           <Reveal delay={140}>
             <p className="max-w-sm text-base leading-relaxed text-background/70">
-              Every smile has a different story. These are real DentaLounge
-              cases — the first three show one patient, from three angles.
+              Every smile has a different story. Start with one patient’s
+              journey, shown from three angles, then explore the supporting
+              clinical views below.
             </p>
           </Reveal>
         </div>
@@ -89,6 +91,12 @@ export function TransformationsSection() {
 
           {/* Thumbnails */}
           <div className="lg:col-span-4">
+            <div className="mb-6 border-l border-accent/50 pl-5">
+              <p className="kicker text-background/50">One patient, three views</p>
+              <p className="mt-3 max-w-xs text-sm leading-relaxed text-background/65">
+                Use the primary view to move through the story, or select any supporting case. {groupedAngles.length} angles follow the same patient.
+              </p>
+            </div>
             <div className="grid grid-cols-4 gap-3 lg:grid-cols-2">
               {transformationCases.map((item, i) => (
                 <button
