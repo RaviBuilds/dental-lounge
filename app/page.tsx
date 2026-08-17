@@ -4,6 +4,7 @@ import { StorySection } from '@/components/story-section'
 import { ExperienceSection } from '@/components/experience-section'
 import { SpaceSection } from '@/components/space-section'
 import { DoctorsSection } from '@/components/doctors-section'
+import { DoctorsIntroSection } from '@/components/doctors-intro-section'
 import { TreatmentsSection } from '@/components/treatments-section'
 import { TransformationsSection } from '@/components/transformations-section'
 import { ClinicalProofSection } from '@/components/clinical-proof-section'
@@ -24,6 +25,7 @@ export default function Home() {
         <ExperienceSection />
         <SpaceSection />
         <DoctorsSection />
+        <DoctorsIntroSection />
         <TreatmentsSection />
         <TransformationsSection />
         <ClinicalProofSection />
