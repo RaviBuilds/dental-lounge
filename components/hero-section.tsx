@@ -37,19 +37,25 @@ function useIsDesktop() {
 export function HeroSection() {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
+  /* A scene can request a temporary hold on auto-advance (e.g. Scene 3 while the user watches the unmuted film). */
+  const [hold, setHold] = useState(false)
   const reduced = usePrefersReducedMotion()
 
   const goTo = useCallback((index: number) => {
     setActive(((index % SCENE_COUNT) + SCENE_COUNT) % SCENE_COUNT)
   }, [])
 
+  const goNext = useCallback(() => {
+    setActive((current) => (current + 1) % SCENE_COUNT)
+  }, [])
+
   useEffect(() => {
-    if (paused) return
+    if (paused || hold) return
     const timer = window.setTimeout(() => {
       setActive((current) => (current + 1) % SCENE_COUNT)
     }, SCENE_DURATIONS[active])
     return () => window.clearTimeout(timer)
-  }, [active, paused])
+  }, [active, paused, hold])
 
   return (
     <section
@@ -61,7 +67,14 @@ export function HeroSection() {
       {/* Scene panels */}
       <SceneOne active={active === 0} index={0} current={active} reduced={reduced} />
       <SceneTwo active={active === 1} index={1} current={active} reduced={reduced} />
-      <SceneThree active={active === 2} index={2} current={active} reduced={reduced} />
+      <SceneThree
+        active={active === 2}
+        index={2}
+        current={active}
+        reduced={reduced}
+        onHoldChange={setHold}
+        onRequestNext={goNext}
+      />
       <SceneFour active={active === 3} index={3} current={active} reduced={reduced} />
 
       {/* Persistent overlay: progress + controls (stays fixed while scenes slide) */}
@@ -89,7 +102,11 @@ export function HeroSection() {
                       className={`absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-accent ${
                         isActive ? 'dl-hero-progress-fill' : 'scale-x-0'
                       }`}
-                      style={isActive && !reduced && !paused ? { animationDuration: `${duration}ms` } : undefined}
+                      style={
+                        isActive && !reduced
+                          ? { animationDuration: `${duration}ms`, animationPlayState: paused || hold ? 'paused' : 'running' }
+                          : undefined
+                      }
                     />
                   </button>
                 )
@@ -116,7 +133,14 @@ export function HeroSection() {
 /* Shared scene wrapper — handles horizontal slide / reduced crossfade */
 /* ------------------------------------------------------------------ */
 
-type SceneProps = { active: boolean; index: number; current: number; reduced: boolean }
+type SceneProps = {
+  active: boolean
+  index: number
+  current: number
+  reduced: boolean
+  onHoldChange?: (hold: boolean) => void
+  onRequestNext?: () => void
+}
 
 function ScenePanel({
   active,
@@ -368,7 +392,7 @@ function frameEntranceTransform(active: boolean, reduced: boolean, isDesktop: bo
 }
 
 function SceneThree(props: SceneProps) {
-  const { active, reduced } = props
+  const { active, reduced, onHoldChange, onRequestNext } = props
   const isDesktop = useIsDesktop()
 
   const inlineVideoRef = useRef<HTMLVideoElement | null>(null)
@@ -383,6 +407,8 @@ function SceneThree(props: SceneProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  /* While the user watches the unmuted film, we stop looping and hold the hero auto-advance. */
+  const [watchingFull, setWatchingFull] = useState(false)
 
   /* Capture the video's true aspect ratio so the frame never shows side gutters */
   const handleMeta = useCallback((event: React.SyntheticEvent<HTMLVideoElement>) => {
@@ -392,7 +418,7 @@ function SceneThree(props: SceneProps) {
     }
   }, [])
 
-  /* Enter / leave: start from the cue point when the scene becomes active, pause when it leaves */
+  /* Enter / leave: start from the cue point when the scene becomes active, pause + reset when it leaves */
   useEffect(() => {
     const video = inlineVideoRef.current
     if (!video) return
@@ -415,8 +441,13 @@ function SceneThree(props: SceneProps) {
     } else {
       video.pause()
       setIsPlaying(false)
+      /* Leaving the scene: drop any full-watch hold so the sequence resumes cleanly */
+      setWatchingFull(false)
+      setIsMuted(true)
+      video.muted = true
+      onHoldChange?.(false)
     }
-  }, [active])
+  }, [active, onHoldChange])
 
   const togglePlay = useCallback(() => {
     const video = inlineVideoRef.current
@@ -432,9 +463,31 @@ function SceneThree(props: SceneProps) {
   const toggleMute = useCallback(() => {
     const video = inlineVideoRef.current
     if (!video) return
-    video.muted = !video.muted
-    setIsMuted(video.muted)
-  }, [])
+    const nextMuted = !video.muted
+    video.muted = nextMuted
+    setIsMuted(nextMuted)
+
+    if (!nextMuted) {
+      /* Unmuted: the user wants to watch the full film — stop looping and hold the hero. */
+      video.loop = false
+      setWatchingFull(true)
+      onHoldChange?.(true)
+      video.play().then(() => setIsPlaying(true)).catch(() => {})
+    } else {
+      /* Re-muted: resume the ambient loop and let the sequence auto-advance again. */
+      video.loop = true
+      setWatchingFull(false)
+      onHoldChange?.(false)
+    }
+  }, [onHoldChange])
+
+  /* Fired only while watching full (loop disabled): resume the sequence and move to the next scene. */
+  const handleEnded = useCallback(() => {
+    setWatchingFull(false)
+    setIsPlaying(false)
+    onHoldChange?.(false)
+    onRequestNext?.()
+  }, [onHoldChange, onRequestNext])
 
   const openLightbox = useCallback(() => {
     inlineVideoRef.current?.pause()
