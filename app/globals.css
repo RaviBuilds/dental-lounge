@@ -172,6 +172,16 @@
     transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  .space-mobile-flow {
+    overscroll-behavior-x: none;
+  }
+
+  @media (max-width: 1023px) {
+    .space-mobile-flow .reveal-clip {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
   .space-narrative .image-lift:hover img,
   .space-narrative .image-lift:focus-within img {
     transform: scale(1.04);
