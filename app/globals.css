@@ -249,6 +249,17 @@
   }
 }
 
+/* Scene 3 — the settled film frame breathes gently, as if floating in space */
+@keyframes dl-film-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -9px, 0);
+  }
+}
+
 .animate-float {
   animation: dl-float 6s ease-in-out infinite;
 }
@@ -257,6 +268,9 @@
 }
 .dl-scene2-motion {
   animation: dl-scene2-drift 24s ease-in-out infinite alternate;
+}
+.dl-film-float {
+  animation: dl-film-float 7s ease-in-out infinite;
 }
 .dl-hero-progress-fill {
   transform-origin: left center;
@@ -277,6 +291,7 @@
   .animate-float,
   .animate-slow-zoom,
   .dl-scene2-motion,
+  .dl-film-float,
   .dl-hero-progress-fill {
     animation: none !important;
   }
