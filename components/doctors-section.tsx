@@ -87,16 +87,16 @@ export function DoctorsSection() {
           </div>
 
           <div id="selected-doctor" role="tabpanel" aria-label={`Selected doctor: ${doctors[selected].name}`} className="lg:col-span-7">
-            <Reveal variant="clip" className="relative mx-auto max-w-[30rem] overflow-hidden rounded-sm bg-charcoal lg:mx-0 lg:max-w-none">
-              <div className="relative aspect-[9/16] w-full lg:aspect-[4/5]">
-                <video ref={videoRef} className="absolute inset-0 h-full w-full object-contain" autoPlay muted loop playsInline preload="metadata" aria-label={`DentaLounge doctors introducing their approach to care`} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}>
+            <Reveal variant="clip" className="group relative mx-auto w-fit max-w-full overflow-hidden rounded-[0.35rem] border border-accent/45 bg-charcoal p-1 shadow-[inset_0_0_0_1px_color-mix(in_oklch,var(--background)_12%,transparent),0_18px_50px_color-mix(in_oklch,var(--charcoal)_28%,transparent)] lg:mx-0">
+              <div className="relative h-[min(72vh,38rem)] max-h-[38rem] aspect-[9/16] overflow-hidden rounded-[0.15rem] bg-charcoal">
+                <video ref={videoRef} className="absolute inset-0 h-full w-full object-cover" autoPlay muted loop playsInline preload="metadata" aria-label={`DentaLounge doctors introducing their approach to care`} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}>
                   <source src="/assets/doctors-intro.mp4" type="video/mp4" />
                 </video>
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/10 to-charcoal/10" />
                 <div className="absolute left-6 top-6 hidden items-center gap-3 text-background/70 sm:flex lg:left-10 lg:top-10"><span className="h-px w-10 bg-accent" /><span className="kicker">DentaLounge · Hyderabad</span></div>
                 <div className="absolute inset-x-6 bottom-6 flex items-end justify-between gap-5 lg:inset-x-10 lg:bottom-10">
                   <div><p className="kicker text-background/70">{doctors[selected].name}</p><p className="mt-2 max-w-md text-pretty font-serif text-xl font-light italic leading-snug text-background sm:text-2xl">Before we treat your smile, we listen to you.</p></div>
-                  <div className="flex shrink-0 items-center gap-2" aria-label="Video controls">
+                  <div className="flex shrink-0 items-center gap-2 opacity-80 transition-opacity duration-500 group-hover:opacity-100 focus-within:opacity-100" aria-label="Video controls">
                     <button type="button" onClick={togglePlay} aria-label={isPlaying ? 'Pause introduction video' : 'Play introduction video'} className="inline-flex size-11 items-center justify-center rounded-full border border-background/45 bg-charcoal/35 text-background backdrop-blur-sm hover:bg-charcoal/65">{isPlaying ? <Pause className="size-4" /> : <Play className="ml-0.5 size-4 fill-current" />}</button>
                     <button type="button" onClick={toggleMute} aria-label={isMuted ? 'Unmute introduction video' : 'Mute introduction video'} className="hidden size-11 items-center justify-center rounded-full border border-background/45 bg-charcoal/35 text-background backdrop-blur-sm hover:bg-charcoal/65 sm:inline-flex">{isMuted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}</button>
                     <button type="button" onClick={() => setIsOpen(true)} aria-label="Watch introduction video fullscreen" className="inline-flex size-11 items-center justify-center rounded-full border border-background/45 bg-charcoal/35 text-background backdrop-blur-sm hover:bg-charcoal/65"><Maximize2 className="size-4" /></button>
