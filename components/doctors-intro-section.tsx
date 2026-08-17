@@ -60,11 +60,11 @@ export function DoctorsIntroSection() {
           </Reveal>
         </div>
 
-        <Reveal variant="clip" className="image-lift relative overflow-hidden rounded-sm bg-charcoal">
-          <div className="relative aspect-[16/10] min-h-[420px] w-full sm:aspect-[16/9]">
+        <Reveal variant="clip" className="image-lift relative mx-auto w-full max-w-[30rem] overflow-hidden rounded-sm bg-charcoal">
+          <div className="relative aspect-[9/16] w-full">
             <video
               ref={videoRef}
-              className="absolute inset-0 h-full w-full object-cover object-[50%_35%] sm:object-center"
+              className="absolute inset-0 h-full w-full object-contain"
               autoPlay
               muted
               loop
@@ -106,8 +106,8 @@ export function DoctorsIntroSection() {
           <button type="button" onClick={() => setIsOpen(false)} aria-label="Close fullscreen video" className="absolute right-5 top-5 inline-flex size-11 items-center justify-center rounded-full bg-background/10 text-background transition-colors hover:bg-background/20">
             <X className="size-5" />
           </button>
-          <div className="w-full max-w-6xl overflow-hidden rounded-sm shadow-2xl" onClick={(event) => event.stopPropagation()}>
-            <video ref={modalVideoRef} className="aspect-video w-full bg-charcoal" controls playsInline>
+          <div className="flex max-h-[88vh] max-w-[94vw] items-center justify-center overflow-hidden rounded-sm shadow-2xl" onClick={(event) => event.stopPropagation()}>
+            <video ref={modalVideoRef} className="max-h-[88vh] w-auto max-w-[94vw] bg-charcoal" controls playsInline>
               <source src="/assets/doctors-intro.mp4" type="video/mp4" />
             </video>
           </div>
