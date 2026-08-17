@@ -167,6 +167,26 @@
     outline: 2px solid var(--ring);
     outline-offset: 4px;
   }
+
+  .space-narrative .image-lift img {
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .space-narrative .image-lift:hover img,
+  .space-narrative .image-lift:focus-within img {
+    transform: scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .space-narrative .image-lift img {
+      transition: none;
+    }
+
+    .space-narrative .image-lift:hover img,
+    .space-narrative .image-lift:focus-within img {
+      transform: none;
+    }
+  }
 }
 
 @keyframes dl-float {
