@@ -135,6 +135,68 @@
     font-size: 0.72rem;
     font-weight: 500;
   }
+
+  .section-rule {
+    position: relative;
+  }
+
+  .section-rule::before {
+    content: '';
+    position: absolute;
+    left: 1.5rem;
+    right: 1.5rem;
+    top: 0;
+    height: 1px;
+    background: color-mix(in oklch, var(--primary) 24%, transparent);
+  }
+
+  .image-lift {
+    overflow: hidden;
+  }
+
+  .image-lift img {
+    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .image-lift:hover img,
+  .image-lift:focus-within img {
+    transform: scale(1.035);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 4px;
+  }
+
+  .space-narrative .image-lift img {
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .space-mobile-flow {
+    overscroll-behavior-x: none;
+  }
+
+  @media (max-width: 1023px) {
+    .space-mobile-flow .reveal-clip {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  .space-narrative .image-lift:hover img,
+  .space-narrative .image-lift:focus-within img {
+    transform: scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .space-narrative .image-lift img {
+      transition: none;
+    }
+
+    .space-narrative .image-lift:hover img,
+    .space-narrative .image-lift:focus-within img {
+      transform: none;
+    }
+  }
 }
 
 @keyframes dl-float {
@@ -168,11 +230,24 @@
   }
 }
 
+@keyframes dl-hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 .animate-float {
   animation: dl-float 6s ease-in-out infinite;
 }
 .animate-slow-zoom {
   animation: dl-slow-zoom 18s ease-in-out infinite alternate;
+}
+.dl-hero-progress-fill {
+  transform-origin: left center;
+  animation: dl-hero-progress linear forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -187,7 +262,11 @@
     transition: none !important;
   }
   .animate-float,
-  .animate-slow-zoom {
+  .animate-slow-zoom,
+  .dl-hero-progress-fill {
     animation: none !important;
+  }
+  .dl-hero-progress-fill {
+    transform: scaleX(1) !important;
   }
 }

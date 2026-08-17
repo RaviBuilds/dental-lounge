@@ -12,7 +12,7 @@ export function ExperienceSection() {
           <Reveal delay={80}>
             <h2 className="mt-6 text-balance font-serif text-4xl font-light leading-[1.05] sm:text-5xl">
               What a visit to DentaLounge{' '}
-              <span className="italic text-accent">feels</span> like.
+              <span className="italic text-accent">feels</span>{' '}like.
             </h2>
           </Reveal>
         </div>
