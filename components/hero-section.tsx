@@ -244,33 +244,88 @@ function SceneOne(props: SceneProps) {
 /* SCENE 2 — THE SPACE                                                */
 /* ------------------------------------------------------------------ */
 
+/* Per-element staggered reveal for Scene 2 — background → label → headline → copy → CTA → metadata */
+function sceneTwoReveal(active: boolean, reduced: boolean, delay: number) {
+  if (reduced) return { className: '', style: undefined as React.CSSProperties | undefined }
+  return {
+    className: `transition-all duration-[850ms] ease-out ${
+      active ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+    }`,
+    style: { transitionDelay: active ? `${delay}ms` : '0ms' },
+  }
+}
+
 function SceneTwo(props: SceneProps) {
   const { active, reduced } = props
+  const label = sceneTwoReveal(active, reduced, 120)
+  const heading = sceneTwoReveal(active, reduced, 260)
+  const copy = sceneTwoReveal(active, reduced, 420)
+  const cta = sceneTwoReveal(active, reduced, 580)
+  const meta = sceneTwoReveal(active, reduced, 760)
   return (
     <ScenePanel {...props}>
-      <Image
-        src="/assets/hero-garden.jpg"
-        alt="DentaLounge clinic at dusk — red-tiled roof, glass treatment rooms and a lush garden"
-        fill
-        priority={false}
-        sizes="100vw"
-        className="object-cover object-center"
+      {/* Background layer — recropped toward glass treatment rooms + garden, roof de-emphasised */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div
+          className={`absolute inset-0 will-change-transform ${
+            !reduced && active ? 'dl-scene2-motion' : ''
+          }`}
+          style={!reduced && !active ? { transform: 'scale(1.06)' } : undefined}
+        >
+          <Image
+            src="/assets/hero-garden.jpg"
+            alt="DentaLounge glass treatment rooms opening onto a lush green garden at dusk"
+            fill
+            priority={false}
+            sizes="100vw"
+            className="object-cover object-[62%_78%] sm:object-[center_74%] lg:object-[center_70%]"
+          />
+        </div>
+      </div>
+
+      {/* Lighter, warmer, greener grade — distinct from Scene 1, contrast preserved at the base */}
+      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/82 via-charcoal/12 to-charcoal/10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-charcoal/45 via-transparent to-transparent" />
+      <div
+        className="absolute inset-0 mix-blend-soft-light opacity-40"
+        style={{ background: 'linear-gradient(to top right, color-mix(in oklch, #d99a52 55%, transparent), transparent 55%)' }}
+        aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/25 to-charcoal/40" />
-      <div className="absolute inset-0 bg-gradient-to-r from-charcoal/55 to-transparent" />
 
       <div className="relative z-10 flex h-full items-end">
         <div className="mx-auto w-full max-w-7xl px-6 pb-20 sm:pb-24 lg:px-10 lg:pb-28">
-          <div className={`max-w-2xl ${sceneContentClass(active, reduced)}`}>
-            <SceneKicker>The Space</SceneKicker>
-            <h2 className="mt-5 max-w-xl text-balance font-serif text-[2.75rem] font-light leading-[0.98] text-background sm:text-6xl lg:text-7xl">
+          <div className="max-w-2xl">
+            <div className={label.className} style={label.style}>
+              <SceneKicker>The Space</SceneKicker>
+            </div>
+            <h2
+              style={heading.style}
+              className={`mt-5 max-w-xl text-balance font-serif text-[2.75rem] font-light leading-[0.98] text-background sm:text-6xl lg:text-7xl ${heading.className}`}
+            >
               A dental clinic that doesn&apos;t <span className="italic text-accent">feel</span> like one.
             </h2>
-            <p className="mt-6 max-w-lg text-pretty text-base leading-relaxed text-background/85 sm:text-lg">
+            <p
+              style={copy.style}
+              className={`mt-6 max-w-lg text-pretty text-base leading-relaxed text-background/90 sm:text-lg ${copy.className}`}
+            >
               Glass treatment rooms. Garden views. A quieter way to experience care.
             </p>
-            <div className="mt-8 sm:mt-9">
+            <div style={cta.style} className={`mt-8 sm:mt-9 ${cta.className}`}>
               <SecondaryCta href="#space">Explore DentaLounge</SecondaryCta>
+            </div>
+            {/* Restrained editorial metadata — a quiet differentiator, not a stat card */}
+            <div
+              style={meta.style}
+              className={`mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-background/20 pt-4 sm:mt-9 ${meta.className}`}
+            >
+              <span className="flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-background/85">
+                <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
+                Garden-facing treatment rooms
+              </span>
+              <span className="hidden h-3 w-px bg-background/25 sm:block" aria-hidden="true" />
+              <span className="text-[0.7rem] uppercase tracking-[0.24em] text-background/55">
+                Glass · Garden · Quiet warmth
+              </span>
             </div>
           </div>
         </div>
