@@ -1,8 +1,9 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
-import { ArrowRight, MapPin, Pause, Play, Star } from 'lucide-react'
+import { ArrowRight, Expand, MapPin, Pause, Play, Star, Volume2, VolumeX, X } from 'lucide-react'
 import { clinic } from '@/lib/site-data'
 
 const SCENE_DURATIONS = [8000, 7000, 8000, 7000]
@@ -21,22 +22,40 @@ function usePrefersReducedMotion() {
   return reduced
 }
 
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false)
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)')
+    const update = () => setIsDesktop(query.matches)
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+  return isDesktop
+}
+
 export function HeroSection() {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
+  /* A scene can request a temporary hold on auto-advance (e.g. Scene 3 while the user watches the unmuted film). */
+  const [hold, setHold] = useState(false)
   const reduced = usePrefersReducedMotion()
 
   const goTo = useCallback((index: number) => {
     setActive(((index % SCENE_COUNT) + SCENE_COUNT) % SCENE_COUNT)
   }, [])
 
+  const goNext = useCallback(() => {
+    setActive((current) => (current + 1) % SCENE_COUNT)
+  }, [])
+
   useEffect(() => {
-    if (paused) return
+    if (paused || hold) return
     const timer = window.setTimeout(() => {
       setActive((current) => (current + 1) % SCENE_COUNT)
     }, SCENE_DURATIONS[active])
     return () => window.clearTimeout(timer)
-  }, [active, paused])
+  }, [active, paused, hold])
 
   return (
     <section
@@ -48,7 +67,14 @@ export function HeroSection() {
       {/* Scene panels */}
       <SceneOne active={active === 0} index={0} current={active} reduced={reduced} />
       <SceneTwo active={active === 1} index={1} current={active} reduced={reduced} />
-      <SceneThree active={active === 2} index={2} current={active} reduced={reduced} />
+      <SceneThree
+        active={active === 2}
+        index={2}
+        current={active}
+        reduced={reduced}
+        onHoldChange={setHold}
+        onRequestNext={goNext}
+      />
       <SceneFour active={active === 3} index={3} current={active} reduced={reduced} />
 
       {/* Persistent overlay: progress + controls (stays fixed while scenes slide) */}
@@ -76,7 +102,11 @@ export function HeroSection() {
                       className={`absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-accent ${
                         isActive ? 'dl-hero-progress-fill' : 'scale-x-0'
                       }`}
-                      style={isActive && !reduced && !paused ? { animationDuration: `${duration}ms` } : undefined}
+                      style={
+                        isActive && !reduced
+                          ? { animationDuration: `${duration}ms`, animationPlayState: paused || hold ? 'paused' : 'running' }
+                          : undefined
+                      }
                     />
                   </button>
                 )
@@ -103,7 +133,14 @@ export function HeroSection() {
 /* Shared scene wrapper — handles horizontal slide / reduced crossfade */
 /* ------------------------------------------------------------------ */
 
-type SceneProps = { active: boolean; index: number; current: number; reduced: boolean }
+type SceneProps = {
+  active: boolean
+  index: number
+  current: number
+  reduced: boolean
+  onHoldChange?: (hold: boolean) => void
+  onRequestNext?: () => void
+}
 
 function ScenePanel({
   active,
@@ -244,33 +281,88 @@ function SceneOne(props: SceneProps) {
 /* SCENE 2 — THE SPACE                                                */
 /* ------------------------------------------------------------------ */
 
+/* Per-element staggered reveal for Scene 2 — background → label → headline → copy → CTA → metadata */
+function sceneTwoReveal(active: boolean, reduced: boolean, delay: number) {
+  if (reduced) return { className: '', style: undefined as React.CSSProperties | undefined }
+  return {
+    className: `transition-all duration-[850ms] ease-out ${
+      active ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+    }`,
+    style: { transitionDelay: active ? `${delay}ms` : '0ms' },
+  }
+}
+
 function SceneTwo(props: SceneProps) {
   const { active, reduced } = props
+  const label = sceneTwoReveal(active, reduced, 120)
+  const heading = sceneTwoReveal(active, reduced, 260)
+  const copy = sceneTwoReveal(active, reduced, 420)
+  const cta = sceneTwoReveal(active, reduced, 580)
+  const meta = sceneTwoReveal(active, reduced, 760)
   return (
     <ScenePanel {...props}>
-      <Image
-        src="/assets/hero-garden.jpg"
-        alt="DentaLounge clinic at dusk — red-tiled roof, glass treatment rooms and a lush garden"
-        fill
-        priority={false}
-        sizes="100vw"
-        className="object-cover object-center"
+      {/* Background layer — recropped toward glass treatment rooms + garden, roof de-emphasised */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div
+          className={`absolute inset-0 will-change-transform ${
+            !reduced && active ? 'dl-scene2-motion' : ''
+          }`}
+          style={!reduced && !active ? { transform: 'scale(1.06)' } : undefined}
+        >
+          <Image
+            src="/assets/hero-garden.jpg"
+            alt="DentaLounge glass treatment rooms opening onto a lush green garden at dusk"
+            fill
+            priority={false}
+            sizes="100vw"
+            className="object-cover object-[62%_78%] sm:object-[center_74%] lg:object-[center_70%]"
+          />
+        </div>
+      </div>
+
+      {/* Lighter, warmer, greener grade — distinct from Scene 1, contrast preserved at the base */}
+      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/82 via-charcoal/12 to-charcoal/10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-charcoal/45 via-transparent to-transparent" />
+      <div
+        className="absolute inset-0 mix-blend-soft-light opacity-40"
+        style={{ background: 'linear-gradient(to top right, color-mix(in oklch, #d99a52 55%, transparent), transparent 55%)' }}
+        aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/25 to-charcoal/40" />
-      <div className="absolute inset-0 bg-gradient-to-r from-charcoal/55 to-transparent" />
 
       <div className="relative z-10 flex h-full items-end">
         <div className="mx-auto w-full max-w-7xl px-6 pb-20 sm:pb-24 lg:px-10 lg:pb-28">
-          <div className={`max-w-2xl ${sceneContentClass(active, reduced)}`}>
-            <SceneKicker>The Space</SceneKicker>
-            <h2 className="mt-5 max-w-xl text-balance font-serif text-[2.75rem] font-light leading-[0.98] text-background sm:text-6xl lg:text-7xl">
+          <div className="max-w-2xl">
+            <div className={label.className} style={label.style}>
+              <SceneKicker>The Space</SceneKicker>
+            </div>
+            <h2
+              style={heading.style}
+              className={`mt-5 max-w-xl text-balance font-serif text-[2.75rem] font-light leading-[0.98] text-background sm:text-6xl lg:text-7xl ${heading.className}`}
+            >
               A dental clinic that doesn&apos;t <span className="italic text-accent">feel</span> like one.
             </h2>
-            <p className="mt-6 max-w-lg text-pretty text-base leading-relaxed text-background/85 sm:text-lg">
+            <p
+              style={copy.style}
+              className={`mt-6 max-w-lg text-pretty text-base leading-relaxed text-background/90 sm:text-lg ${copy.className}`}
+            >
               Glass treatment rooms. Garden views. A quieter way to experience care.
             </p>
-            <div className="mt-8 sm:mt-9">
+            <div style={cta.style} className={`mt-8 sm:mt-9 ${cta.className}`}>
               <SecondaryCta href="#space">Explore DentaLounge</SecondaryCta>
+            </div>
+            {/* Restrained editorial metadata — a quiet differentiator, not a stat card */}
+            <div
+              style={meta.style}
+              className={`mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-background/20 pt-4 sm:mt-9 ${meta.className}`}
+            >
+              <span className="flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.24em] text-background/85">
+                <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
+                Garden-facing treatment rooms
+              </span>
+              <span className="hidden h-3 w-px bg-background/25 sm:block" aria-hidden="true" />
+              <span className="text-[0.7rem] uppercase tracking-[0.24em] text-background/55">
+                Glass · Garden · Quiet warmth
+              </span>
             </div>
           </div>
         </div>
@@ -283,29 +375,212 @@ function SceneTwo(props: SceneProps) {
 /* SCENE 3 — THE PEOPLE                                               */
 /* ------------------------------------------------------------------ */
 
-function SceneThree(props: SceneProps) {
-  const { active, reduced } = props
-  const videoRef = useRef<HTMLVideoElement | null>(null)
+const DOCTOR_VIDEO_SRC = '/assets/doctors-intro.mp4'
+const DOCTOR_VIDEO_CUE = 3 /* doctor begins speaking ~4s in; enter mid-approach */
+const DEFAULT_PORTRAIT_RATIO = 9 / 16
 
+function frameEntranceTransform(active: boolean, reduced: boolean, isDesktop: boolean) {
+  if (reduced) return undefined
+  if (isDesktop) {
+    return active
+      ? 'perspective(1400px) translate3d(0, 0, 0) rotateY(-8deg) rotateX(4deg) rotateZ(-2deg) scale(1)'
+      : 'perspective(1400px) translate3d(5%, 70px, -150px) rotateY(-18deg) rotateX(11deg) rotateZ(-6deg) scale(0.9)'
+  }
+  return active
+    ? 'translate3d(0, 0, 0) rotateZ(-1deg) scale(1)'
+    : 'translate3d(0, 42px, 0) rotateZ(-2.5deg) scale(0.95)'
+}
+
+function SceneThree(props: SceneProps) {
+  const { active, reduced, onHoldChange, onRequestNext } = props
+  const isDesktop = useIsDesktop()
+
+  const inlineVideoRef = useRef<HTMLVideoElement | null>(null)
+  const modalVideoRef = useRef<HTMLVideoElement | null>(null)
+  const openerRef = useRef<HTMLButtonElement | null>(null)
+  const closeRef = useRef<HTMLButtonElement | null>(null)
+  const overlayRef = useRef<HTMLDivElement | null>(null)
+  const activeRef = useRef(active)
+  activeRef.current = active
+
+  const [aspect, setAspect] = useState(DEFAULT_PORTRAIT_RATIO)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  /* While the user watches the unmuted film, we stop looping and hold the hero auto-advance. */
+  const [watchingFull, setWatchingFull] = useState(false)
+
+  /* Capture the video's true aspect ratio so the frame never shows side gutters */
+  const handleMeta = useCallback((event: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = event.currentTarget
+    if (video.videoWidth && video.videoHeight) {
+      setAspect(video.videoWidth / video.videoHeight)
+    }
+  }, [])
+
+  /* Enter / leave: start from the cue point when the scene becomes active, pause + reset when it leaves */
   useEffect(() => {
-    const video = videoRef.current
+    const video = inlineVideoRef.current
     if (!video) return
-    if (active) video.play().catch(() => {})
-  }, [active])
+    if (active) {
+      const start = () => {
+        try {
+          video.currentTime = DOCTOR_VIDEO_CUE
+        } catch {
+          /* metadata not ready — the loadedmetadata handler will retry */
+        }
+        video.muted = true
+        setIsMuted(true)
+        video
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch(() => setIsPlaying(false))
+      }
+      if (video.readyState >= 1) start()
+      else video.addEventListener('loadedmetadata', start, { once: true })
+    } else {
+      video.pause()
+      setIsPlaying(false)
+      /* Leaving the scene: drop any full-watch hold so the sequence resumes cleanly */
+      setWatchingFull(false)
+      setIsMuted(true)
+      video.muted = true
+      onHoldChange?.(false)
+    }
+  }, [active, onHoldChange])
+
+  const togglePlay = useCallback(() => {
+    const video = inlineVideoRef.current
+    if (!video) return
+    if (video.paused) {
+      video.play().then(() => setIsPlaying(true)).catch(() => {})
+    } else {
+      video.pause()
+      setIsPlaying(false)
+    }
+  }, [])
+
+  const toggleMute = useCallback(() => {
+    const video = inlineVideoRef.current
+    if (!video) return
+    const nextMuted = !video.muted
+    video.muted = nextMuted
+    setIsMuted(nextMuted)
+
+    if (!nextMuted) {
+      /* Unmuted: the user wants to watch the full film — stop looping and hold the hero. */
+      video.loop = false
+      setWatchingFull(true)
+      onHoldChange?.(true)
+      video.play().then(() => setIsPlaying(true)).catch(() => {})
+    } else {
+      /* Re-muted: resume the ambient loop and let the sequence auto-advance again. */
+      video.loop = true
+      setWatchingFull(false)
+      onHoldChange?.(false)
+    }
+  }, [onHoldChange])
+
+  /* Fired only while watching full (loop disabled): resume the sequence and move to the next scene. */
+  const handleEnded = useCallback(() => {
+    setWatchingFull(false)
+    setIsPlaying(false)
+    onHoldChange?.(false)
+    onRequestNext?.()
+  }, [onHoldChange, onRequestNext])
+
+  const openLightbox = useCallback(() => {
+    inlineVideoRef.current?.pause()
+    setIsPlaying(false)
+    setLightboxOpen(true)
+  }, [])
+
+  /* Lightbox lifecycle: scroll lock, cue-point start with sound, focus + Escape handling */
+  useEffect(() => {
+    if (!lightboxOpen) return
+    const body = document.body
+    const previousOverflow = body.style.overflow
+    body.style.overflow = 'hidden'
+
+    const video = modalVideoRef.current
+    if (video) {
+      const start = () => {
+        try {
+          video.currentTime = DOCTOR_VIDEO_CUE
+        } catch {
+          /* retry via loadedmetadata below */
+        }
+        video.muted = false
+        video.play().catch(() => {})
+      }
+      if (video.readyState >= 1) start()
+      else video.addEventListener('loadedmetadata', start, { once: true })
+    }
+
+    closeRef.current?.focus()
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        setLightboxOpen(false)
+        return
+      }
+      if (event.key === 'Tab' && overlayRef.current) {
+        const focusable = overlayRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], video[controls], [tabindex]:not([tabindex="-1"])',
+        )
+        if (focusable.length === 0) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault()
+          last.focus()
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault()
+          first.focus()
+        }
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      body.style.overflow = previousOverflow
+      modalVideoRef.current?.pause()
+      openerRef.current?.focus()
+      if (activeRef.current) {
+        const inline = inlineVideoRef.current
+        if (inline) {
+          inline.play().then(() => setIsPlaying(true)).catch(() => {})
+        }
+      }
+    }
+  }, [lightboxOpen])
+
+  const entranceTransform = frameEntranceTransform(active, reduced, isDesktop)
 
   return (
     <ScenePanel {...props}>
-      <Image
-        src="/assets/hero-doctor-bg.webp"
-        alt=""
-        fill
-        sizes="100vw"
+      {/* Softened environment — real DentaLounge interior, pushed back so the film object reads as foreground */}
+      <div className="absolute inset-0 overflow-hidden">
+        <Image
+          src="/assets/hero-doctor-bg.webp"
+          alt=""
+          fill
+          sizes="100vw"
+          aria-hidden="true"
+          className="scale-105 object-cover object-center blur-[2px] lg:blur-[3px]"
+        />
+      </div>
+      {/* Directional scrim — keeps the interior legible while text stays readable on the left */}
+      <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/55 to-charcoal/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/75 via-transparent to-charcoal/30" />
+      {/* Soft vignette */}
+      <div
+        className="absolute inset-0"
         aria-hidden="true"
-        className="object-cover object-center"
+        style={{ background: 'radial-gradient(120% 90% at 65% 45%, transparent 45%, color-mix(in oklch, var(--charcoal) 65%, transparent) 100%)' }}
       />
-      {/* Directional scrim — keeps the interior visible on the media side, text legible on the left */}
-      <div className="absolute inset-0 bg-gradient-to-r from-charcoal/85 via-charcoal/45 to-charcoal/15 lg:to-charcoal/5" />
-      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-charcoal/20" />
 
       <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl items-start px-6 lg:items-center lg:px-10">
         <div className="grid w-full items-center gap-6 pb-14 pt-24 sm:pt-28 lg:grid-cols-12 lg:gap-10 lg:pb-16 lg:pt-16">
@@ -326,37 +601,158 @@ function SceneThree(props: SceneProps) {
             </div>
           </div>
 
-          {/* Portrait video — editorial film frame on desktop, dominant media on mobile */}
-          <div className="order-1 flex justify-center lg:order-2 lg:col-span-6 lg:justify-end">
+          {/* Portrait film object — floats into place on desktop, dominant + practical on mobile */}
+          <div
+            className="order-1 flex justify-center lg:order-2 lg:col-span-6 lg:justify-end"
+            style={{ perspective: isDesktop && !reduced ? '1400px' : undefined }}
+          >
             <div
-              className={`group relative w-fit max-w-full overflow-hidden rounded-[0.4rem] border border-accent/45 bg-charcoal/70 p-1 shadow-[inset_0_0_0_1px_color-mix(in_oklch,var(--background)_12%,transparent),0_24px_60px_color-mix(in_oklch,var(--charcoal)_45%,transparent)] backdrop-blur-sm ${
-                reduced ? '' : 'transition-all duration-700 ease-out'
-              } ${active || reduced ? 'translate-y-0 scale-100 opacity-100 delay-150' : 'translate-y-4 scale-[0.98] opacity-0'}`}
+              className="w-auto max-w-full will-change-transform"
+              style={{
+                transform: entranceTransform,
+                opacity: active || reduced ? 1 : 0,
+                transformStyle: !reduced && isDesktop ? 'preserve-3d' : undefined,
+                transition: reduced
+                  ? 'opacity 900ms ease-out'
+                  : 'transform 1200ms cubic-bezier(0.22, 1, 0.36, 1), opacity 900ms ease-out',
+              }}
             >
-              <div className="relative aspect-[9/16] h-[38vh] max-h-[24rem] min-h-[15rem] overflow-hidden rounded-[0.2rem] bg-charcoal sm:h-[48vh] sm:max-h-[30rem] lg:h-[58vh] lg:max-h-[34rem]">
-                <video
-                  ref={videoRef}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster="/assets/hero-doctor-bg.webp"
-                  aria-label="DentaLounge doctors introducing their approach to care"
-                >
-                  <source src="/assets/doctors-intro.mp4" type="video/mp4" />
-                </video>
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-transparent" />
-                <div className="absolute inset-x-4 bottom-4 flex items-center gap-2 text-background/75">
-                  <span className="h-px w-6 bg-accent" aria-hidden="true" />
-                  <span className="kicker text-[0.6rem]">A word from the team</span>
+              {/* Gentle idle float once settled */}
+              <div className={active && isDesktop && !reduced ? 'dl-film-float' : undefined}>
+                {/* Frame chrome — graphite edge + thin teal accent + soft depth */}
+                <div className="group relative rounded-[0.55rem] border border-accent/40 bg-gradient-to-b from-charcoal/85 to-charcoal/95 p-[3px] shadow-[0_34px_80px_-12px_color-mix(in_oklch,var(--charcoal)_75%,transparent)] backdrop-blur-sm">
+                  <div className="pointer-events-none absolute inset-0 rounded-[0.55rem] ring-1 ring-inset ring-background/10" aria-hidden="true" />
+                  <div
+                    className="relative h-[37vh] max-h-[21rem] min-h-[14rem] w-auto overflow-hidden rounded-[0.4rem] bg-charcoal sm:h-[48vh] sm:max-h-[27rem] lg:h-[62vh] lg:max-h-[34rem]"
+                    style={{ aspectRatio: String(aspect) }}
+                  >
+                    <video
+                      ref={inlineVideoRef}
+                      className="absolute inset-0 h-full w-full object-cover"
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      poster="/assets/hero-doctor-bg.webp"
+                      onLoadedMetadata={handleMeta}
+                      onPlay={() => setIsPlaying(true)}
+                      onPause={() => setIsPlaying(false)}
+                      aria-label="DentaLounge doctors introducing their approach to care"
+                    >
+                      <source src={DOCTOR_VIDEO_SRC} type="video/mp4" />
+                    </video>
+
+                    {/* Legibility gradients for chrome + metadata */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-charcoal/25" />
+
+                    {/* Poster-state play affordance when autoplay is blocked */}
+                    {!isPlaying && active && (
+                      <button
+                        type="button"
+                        onClick={togglePlay}
+                        aria-label="Play doctor introduction"
+                        className="absolute inset-0 z-10 flex items-center justify-center bg-charcoal/30 transition-colors hover:bg-charcoal/15"
+                      >
+                        <span className="flex size-16 items-center justify-center rounded-full bg-background/90 text-foreground shadow-lg backdrop-blur-sm transition-transform hover:scale-105">
+                          <Play className="ml-0.5 size-6 fill-current" aria-hidden="true" />
+                        </span>
+                      </button>
+                    )}
+
+                    {/* Live indicator — kept clear of the video's own branding */}
+                    <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-charcoal/50 px-2.5 py-1 backdrop-blur-sm">
+                      <span className="size-1.5 animate-pulse rounded-full bg-accent" aria-hidden="true" />
+                      <span className="text-[0.5rem] font-medium uppercase tracking-[0.2em] text-background/80">Film</span>
+                    </div>
+
+                    {/* Bottom control cluster — belongs to the DentaLounge frame */}
+                    <div className="absolute inset-x-3 bottom-3 z-20 flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5 rounded-full bg-charcoal/55 p-1 backdrop-blur-md">
+                        <button
+                          type="button"
+                          onClick={togglePlay}
+                          aria-label={isPlaying ? 'Pause video' : 'Play video'}
+                          className="flex size-8 items-center justify-center rounded-full text-background/85 transition-colors hover:bg-background/15 hover:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                        >
+                          {isPlaying ? <Pause className="size-4" /> : <Play className="ml-0.5 size-4 fill-current" />}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={toggleMute}
+                          aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+                          className="flex size-8 items-center justify-center rounded-full text-background/85 transition-colors hover:bg-background/15 hover:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                        >
+                          {isMuted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
+                        </button>
+                      </div>
+                      <button
+                        ref={openerRef}
+                        type="button"
+                        onClick={openLightbox}
+                        aria-label="Watch fullscreen"
+                        className="flex items-center gap-1.5 rounded-full bg-charcoal/55 py-1.5 pl-3 pr-2.5 text-[0.6rem] uppercase tracking-[0.18em] text-background/85 backdrop-blur-md transition-colors hover:bg-charcoal/75 hover:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      >
+                        <span className="hidden sm:inline">Watch</span>
+                        <Expand className="size-3.5" aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Fullscreen lightbox — portrait-native viewing experience.
+          Portaled to <body> so `fixed` escapes the transformed scene panel and covers the viewport. */}
+      {lightboxOpen &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <div
+            ref={overlayRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="DentaLounge doctor introduction, fullscreen"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-charcoal/95 p-4 backdrop-blur-md"
+          >
+          <button
+            type="button"
+            aria-label="Close fullscreen video"
+            onClick={() => setLightboxOpen(false)}
+            className="absolute inset-0 -z-10 h-full w-full cursor-default"
+            tabIndex={-1}
+          />
+          <div className="relative flex h-full max-h-full items-center justify-center">
+            <div
+              className="relative h-full max-h-[88vh] w-auto overflow-hidden rounded-[0.5rem] border border-accent/30 bg-charcoal shadow-2xl"
+              style={{ aspectRatio: String(aspect) }}
+            >
+              <video
+                ref={modalVideoRef}
+                className="h-full w-full object-contain"
+                controls
+                playsInline
+                preload="metadata"
+                poster="/assets/hero-doctor-bg.webp"
+                aria-label="DentaLounge doctors introducing their approach to care"
+              >
+                <source src={DOCTOR_VIDEO_SRC} type="video/mp4" />
+              </video>
+            </div>
+          </div>
+          <button
+            ref={closeRef}
+            type="button"
+            aria-label="Close fullscreen video"
+            onClick={() => setLightboxOpen(false)}
+            className="absolute right-4 top-4 flex size-11 items-center justify-center rounded-full bg-background/10 text-background backdrop-blur-md transition-colors hover:bg-background/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            <X className="size-5" aria-hidden="true" />
+          </button>
+          </div>,
+          document.body,
+        )}
     </ScenePanel>
   )
 }

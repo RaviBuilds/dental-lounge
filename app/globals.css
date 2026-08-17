@@ -239,11 +239,38 @@
   }
 }
 
+/* Scene 2 — restrained cinematic breathing: slow scale + tiny horizontal drift */
+@keyframes dl-scene2-drift {
+  0% {
+    transform: scale(1.06) translate3d(-1.1%, 0.3%, 0);
+  }
+  100% {
+    transform: scale(1.11) translate3d(1.1%, -0.3%, 0);
+  }
+}
+
+/* Scene 3 — the settled film frame breathes gently, as if floating in space */
+@keyframes dl-film-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -9px, 0);
+  }
+}
+
 .animate-float {
   animation: dl-float 6s ease-in-out infinite;
 }
 .animate-slow-zoom {
   animation: dl-slow-zoom 18s ease-in-out infinite alternate;
+}
+.dl-scene2-motion {
+  animation: dl-scene2-drift 24s ease-in-out infinite alternate;
+}
+.dl-film-float {
+  animation: dl-film-float 7s ease-in-out infinite;
 }
 .dl-hero-progress-fill {
   transform-origin: left center;
@@ -263,6 +290,8 @@
   }
   .animate-float,
   .animate-slow-zoom,
+  .dl-scene2-motion,
+  .dl-film-float,
   .dl-hero-progress-fill {
     animation: none !important;
   }
