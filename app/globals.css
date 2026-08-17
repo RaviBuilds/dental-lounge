@@ -230,11 +230,24 @@
   }
 }
 
+@keyframes dl-hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 .animate-float {
   animation: dl-float 6s ease-in-out infinite;
 }
 .animate-slow-zoom {
   animation: dl-slow-zoom 18s ease-in-out infinite alternate;
+}
+.dl-hero-progress-fill {
+  transform-origin: left center;
+  animation: dl-hero-progress linear forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -249,7 +262,11 @@
     transition: none !important;
   }
   .animate-float,
-  .animate-slow-zoom {
+  .animate-slow-zoom,
+  .dl-hero-progress-fill {
     animation: none !important;
+  }
+  .dl-hero-progress-fill {
+    transform: scaleX(1) !important;
   }
 }
