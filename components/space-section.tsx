@@ -77,21 +77,25 @@ export function SpaceSection() {
 
           <Reveal variant="clip" delay={100} className="mt-14">
             <figure>
-              <SpaceImage src={spaces.garden.src} alt={spaces.garden.alt} sizes="100vw" className="aspect-[4/5]" />
+              <SpaceImage src={spaces.garden.src} alt={spaces.garden.alt} sizes="100vw" className="aspect-[4/5] space-image-garden" />
               <SpaceCaption index="02" label="Garden">Greenery that changes the pace of a clinical visit.</SpaceCaption>
             </figure>
           </Reveal>
 
           <Reveal variant="clip" delay={100} className="space-feature mt-14">
             <figure>
-              <SpaceImage src={spaces.treatment.src} alt={spaces.treatment.alt} sizes="100vw" className="aspect-[4/3]" />
+              <div className="space-feature-visual relative">
+                <SpaceImage src={spaces.treatment.src} alt={spaces.treatment.alt} sizes="100vw" className="aspect-[4/3]" />
+                <div className="space-annotation space-annotation-light" aria-hidden="true"><span>NATURAL LIGHT</span><i /></div>
+                <div className="space-annotation space-annotation-garden" aria-hidden="true"><span>GARDEN VIEW</span><i /></div>
+              </div>
               <SpaceCaption index="03" label="Treatment room">Natural light, quiet materials and enough room to feel unhurried.</SpaceCaption>
             </figure>
           </Reveal>
 
           <Reveal variant="clip" delay={100} className="mt-14">
             <figure>
-              <SpaceImage src={spaces.chair.src} alt={spaces.chair.alt} sizes="100vw" className="aspect-[4/5]" />
+              <SpaceImage src={spaces.chair.src} alt={spaces.chair.alt} sizes="100vw" className="aspect-[4/5] space-image-chair" />
               <SpaceCaption index="04" label="From the chair">A view that gives you something else to look at — and a moment to settle.</SpaceCaption>
             </figure>
           </Reveal>
@@ -104,9 +108,9 @@ export function SpaceSection() {
             <footer className="kicker mt-6 text-muted-foreground">Google review · Calm &amp; welcoming</footer>
           </Reveal>
 
-          <Reveal variant="clip" delay={100} className="mt-14">
+          <Reveal variant="clip" delay={100} className="space-closing mt-14">
             <figure>
-              <SpaceImage src={spaces.night.src} alt={spaces.night.alt} sizes="100vw" className="aspect-[4/5]" />
+              <SpaceImage src={spaces.night.src} alt={spaces.night.alt} sizes="100vw" className="aspect-[4/5] space-image-closing" />
               <SpaceCaption index="06" label="Experience">Warm light for a softer arrival, before and after dark.</SpaceCaption>
             </figure>
           </Reveal>
@@ -138,21 +142,25 @@ export function SpaceSection() {
 
             <Reveal variant="clip" delay={100} className="lg:col-span-4 lg:col-start-8 lg:pt-10">
               <figure>
-                <SpaceImage src={spaces.garden.src} alt={spaces.garden.alt} sizes="33vw" className="aspect-[4/5]" />
+                <SpaceImage src={spaces.garden.src} alt={spaces.garden.alt} sizes="33vw" className="aspect-[4/5] space-image-garden" />
                 <SpaceCaption index="02" label="Garden">Greenery that changes the pace of a clinical visit.</SpaceCaption>
               </figure>
             </Reveal>
 
             <Reveal variant="clip" delay={120} className="space-feature lg:col-span-10 lg:col-start-2">
               <figure>
-                <SpaceImage src={spaces.treatment.src} alt={spaces.treatment.alt} sizes="83vw" className="aspect-[16/9]" />
+                <div className="space-feature-visual relative">
+                  <SpaceImage src={spaces.treatment.src} alt={spaces.treatment.alt} sizes="83vw" className="aspect-[16/9]" />
+                  <div className="space-annotation space-annotation-light" aria-hidden="true"><span>NATURAL LIGHT</span><i /></div>
+                  <div className="space-annotation space-annotation-garden" aria-hidden="true"><span>GARDEN VIEW</span><i /></div>
+                </div>
                 <SpaceCaption index="03" label="Treatment room">Natural light, quiet materials and enough room to feel unhurried.</SpaceCaption>
               </figure>
             </Reveal>
 
             <Reveal variant="clip" delay={100} className="lg:col-span-6 lg:col-start-3 lg:pt-6">
               <figure>
-                <SpaceImage src={spaces.chair.src} alt={spaces.chair.alt} sizes="50vw" className="aspect-[4/3]" />
+                <SpaceImage src={spaces.chair.src} alt={spaces.chair.alt} sizes="50vw" className="aspect-[4/3] space-image-chair" />
                 <SpaceCaption index="04" label="From the chair">A view that gives you something else to look at — and a moment to settle.</SpaceCaption>
               </figure>
             </Reveal>
@@ -163,9 +171,9 @@ export function SpaceSection() {
               <footer className="kicker mt-6 text-muted-foreground">Google review · Calm &amp; welcoming</footer>
             </Reveal>
 
-            <Reveal variant="clip" delay={120} className="lg:col-span-8 lg:col-start-3 lg:pt-8">
+            <Reveal variant="clip" delay={120} className="space-closing lg:col-span-8 lg:col-start-3 lg:pt-8">
               <figure>
-                <SpaceImage src={spaces.night.src} alt={spaces.night.alt} sizes="66vw" className="aspect-[16/9]" />
+                <SpaceImage src={spaces.night.src} alt={spaces.night.alt} sizes="66vw" className="aspect-[16/9] space-image-closing" />
                 <SpaceCaption index="06" label="Experience">Warm light for a softer arrival, before and after dark.</SpaceCaption>
               </figure>
             </Reveal>
