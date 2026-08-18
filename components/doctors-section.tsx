@@ -6,9 +6,9 @@ import { Reveal } from '@/components/reveal'
 import { doctors } from '@/lib/site-data'
 
 const carePrinciples = [
-  ['01', 'Listen', 'We make room for the person before the procedure.'],
-  ['02', 'Explain', 'Clear answers, calm pacing, and no unnecessary mystery.'],
-  ['03', 'Precision', 'Thoughtful clinical work, carried out with quiet focus.'],
+  ['01', 'Listen', 'Understand the person before the procedure.'],
+  ['02', 'Explain', 'Make the treatment understandable and clear.'],
+  ['03', 'Precision', 'Approach treatment with care and attention to detail.'],
 ] as const
 
 export function DoctorsSection() {
@@ -83,10 +83,10 @@ export function DoctorsSection() {
           </Reveal>
         </div>
 
-        <div className="people-stage mt-16 grid gap-10 lg:mt-24 lg:grid-cols-12 lg:items-start lg:gap-16">
+        <div className="people-stage people-story-stage mt-16 grid gap-10 lg:mt-24 lg:grid-cols-12 lg:items-start lg:gap-16">
           <div className="lg:col-span-4 lg:pt-8">
             <Reveal delay={120}>
-              <div className="people-feature-label mb-6 flex items-center gap-3"><span className="h-px w-10 bg-primary" /><span className="kicker text-primary">Featured story · {selectedDoctor.name}</span></div>
+              <div className="people-feature-label mb-6 flex items-center gap-3"><span className="h-px w-10 bg-primary" /><span className="kicker text-primary">Featured story · Dr. Taha Mir</span></div>
               <p className="max-w-sm font-serif text-2xl font-light leading-snug text-foreground sm:text-3xl">Before we treat your smile, we listen to you.</p>
             </Reveal>
             <Reveal delay={200}>
@@ -127,7 +127,7 @@ export function DoctorsSection() {
         </div>
 
         <Reveal delay={160}>
-          <div className="people-care-list mt-24 border-y border-primary/20 lg:mt-32">
+          <div className="people-care-list people-care-progression mt-24 border-y border-primary/20 lg:mt-32">
             {carePrinciples.map(([index, title, copy]) => (
               <div key={index} className="people-care-row group grid gap-3 py-7 sm:grid-cols-[4rem_12rem_1fr] sm:items-baseline sm:gap-6">
                 <span className="kicker text-muted-foreground">{index}</span>

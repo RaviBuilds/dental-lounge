@@ -406,11 +406,78 @@
 .people-care-row:first-child { border-top: 0; }
 .people-care-row:hover { padding-left: 0.75rem; background: color-mix(in oklch, var(--background) 34%, transparent); }
 .people-handoff { position: relative; }
+.people-story-stage::after {
+  content: '';
+  position: absolute;
+  left: 13%;
+  right: 5%;
+  bottom: -4.5rem;
+  height: 9rem;
+  border-bottom: 1px solid color-mix(in oklch, var(--primary) 14%, transparent);
+  border-radius: 0 0 52% 48%;
+  pointer-events: none;
+  opacity: 0.75;
+  transform: rotate(-2deg);
+}
+.people-film-frame::after {
+  content: '';
+  position: absolute;
+  inset: -0.55rem 0.55rem 0.55rem -0.55rem;
+  z-index: -1;
+  border: 1px solid color-mix(in oklch, var(--primary) 18%, transparent);
+  border-radius: 0.35rem;
+  pointer-events: none;
+}
+.people-doctor-tab.is-active::after {
+  content: '';
+  position: absolute;
+  right: -3.5rem;
+  top: 50%;
+  width: 3.5rem;
+  height: 1px;
+  background: color-mix(in oklch, var(--primary) 70%, transparent);
+  transform: translateY(-50%);
+  transform-origin: left center;
+}
+.people-care-progression { position: relative; }
+.people-care-progression::before {
+  content: '01  ─────  02  ─────  03';
+  position: absolute;
+  top: -1.3rem;
+  left: 4rem;
+  color: color-mix(in oklch, var(--primary) 58%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  white-space: pre;
+}
+.people-care-progression .people-care-row { position: relative; }
+.people-care-progression .people-care-row::before {
+  content: '';
+  position: absolute;
+  left: 4rem;
+  bottom: -1px;
+  width: 0.3rem;
+  height: 0.3rem;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  background: var(--background);
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+.people-care-progression .people-care-row:hover::before,
+.people-care-progression .people-care-row:focus-within::before { opacity: 1; }
 @media (max-width: 639px) {
   .people-contour { top: 5%; left: -48%; width: 150%; height: 74%; opacity: 0.12; }
   .people-section::after { top: 22%; right: -68%; width: 125vw; height: 125vw; opacity: 0.65; }
   .people-film-arc { top: 18%; right: -38%; width: 155%; }
   .people-film-frame { margin-inline: auto; }
+  .people-story-stage { margin-top: 3.5rem; }
+  .people-film-frame::after { inset: -0.35rem 0.35rem 0.35rem -0.35rem; }
+  .people-doctor-tab.is-active::after { right: -1.5rem; width: 1.5rem; }
+  .people-care-progression { margin-top: 6rem; }
+  .people-care-progression::before { left: 0.25rem; top: -1rem; font-size: 0.5rem; letter-spacing: 0.08em; }
+  .people-care-progression .people-care-row::before { left: 0.25rem; }
   .people-doctor-tab:hover, .people-doctor-tab:focus-visible, .people-doctor-tab.is-active { padding-left: 0.35rem; }
   .people-doctor-tab.is-active::before, .people-doctor-tab:hover::before, .people-doctor-tab:focus-visible::before { width: 2.5rem; }
   .people-care-row:hover { padding-left: 0.35rem; }
@@ -798,7 +865,12 @@
   .idea-marker,
   .people-contour,
   .people-section::after,
+  .people-story-stage::after,
   .people-film-arc,
+  .people-film-frame::after,
+  .people-doctor-tab::after,
+  .people-care-progression::before,
+  .people-care-progression .people-care-row::before,
   .people-film-frame,
   .people-doctor-tab,
   .people-doctor-tab::before,
