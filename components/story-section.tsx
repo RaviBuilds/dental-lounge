@@ -71,6 +71,7 @@ export function StorySection() {
           </div>
 
           <div className="idea-image-wrap relative z-10 lg:col-span-5 lg:col-start-8 lg:-mt-6">
+            <div className="idea-annotation idea-annotation-top">GARDEN-FACING<br />TREATMENT ROOMS <span /></div>
             <div className="idea-image-object relative overflow-hidden">
               <div className="relative aspect-[4/5] w-full overflow-hidden">
                 <Image
@@ -82,7 +83,6 @@ export function StorySection() {
                 />
               </div>
             </div>
-            <div className="idea-annotation idea-annotation-top"><span /> GARDEN-FACING<br />TREATMENT ROOMS</div>
             <div className="idea-annotation idea-annotation-bottom">GLASS · GARDEN · QUIET WARMTH <span /></div>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-foreground">Treatment rooms open directly onto the garden — greenery is part of the care.</p>
           </div>
