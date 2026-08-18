@@ -6,12 +6,8 @@ import { SpaceSection } from '@/components/space-section'
 import { DoctorsSection } from '@/components/doctors-section'
 import { TreatmentsSection } from '@/components/treatments-section'
 import { TransformationsSection } from '@/components/transformations-section'
-import { ClinicalProofSection } from '@/components/clinical-proof-section'
 import { ReviewsSection } from '@/components/reviews-section'
-import { ClinicVideoSection } from '@/components/clinic-video-section'
-import { WhySection } from '@/components/why-section'
 import { ContactSection } from '@/components/contact-section'
-import { FinalCtaSection } from '@/components/final-cta-section'
 import { SiteFooter } from '@/components/site-footer'
 
 export default function Home() {
@@ -21,17 +17,12 @@ export default function Home() {
       <main>
         <HeroSection />
         <StorySection />
-        <ExperienceSection />
-        <SpaceSection />
         <DoctorsSection />
+        <SpaceSection />
         <TreatmentsSection />
         <TransformationsSection />
-        <ClinicalProofSection />
         <ReviewsSection />
-        <ClinicVideoSection />
-        <WhySection />
         <ContactSection />
-        <FinalCtaSection />
       </main>
       <SiteFooter />
     </>
