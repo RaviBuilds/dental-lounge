@@ -511,10 +511,17 @@
 /* Treatments — precise, visual, and editorial rather than card-based. */
 .treatments-editorial { overflow: hidden; }
 .treatments-layout { position: relative; }
-.treatment-category-trigger { transition: color 450ms ease, padding-left 600ms cubic-bezier(0.16, 1, 0.3, 1); }
+.treatment-category-trigger { transition: color 320ms ease, padding-left 360ms cubic-bezier(0.16, 1, 0.3, 1); }
 .treatment-category-trigger:hover, .treatment-category-trigger:focus-visible, .treatment-category-trigger.is-active { padding-left: 0.5rem; color: var(--primary); }
+.treatment-category-trigger.is-active .font-serif { font-weight: 400; }
+.treatment-category-trigger.is-active .font-mono { color: var(--primary); }
+.treatment-category-trigger.is-active > span:last-child { color: var(--primary); }
 .treatment-category-trigger:focus-visible, .treatment-item:focus-visible { outline: 1px solid color-mix(in oklch, var(--primary) 75%, transparent); outline-offset: 0.3rem; }
-.treatment-category-trigger + div { animation: treatment-reveal 650ms cubic-bezier(0.16, 1, 0.3, 1); }
+.treatment-category-trigger + div { animation: treatment-reveal 320ms cubic-bezier(0.16, 1, 0.3, 1); }
+.treatment-detail { animation: treatment-detail-reveal 320ms ease both; }
+.treatment-detail .treatment-image { aspect-ratio: 4 / 3; }
+.treatment-detail .treatment-image img { aspect-ratio: 4 / 3; object-fit: cover; }
+@keyframes treatment-detail-reveal { from { opacity: 0.35; transform: translateY(0.35rem); } to { opacity: 1; transform: translateY(0); } }
 .treatment-item { color: var(--muted-foreground); transition: color 400ms ease, padding-left 450ms cubic-bezier(0.16, 1, 0.3, 1); }
 .treatment-item:hover, .treatment-item:focus-visible, .treatment-item.is-selected { padding-left: 0.5rem; color: var(--primary); }
 .treatment-item-marker { width: 1rem; color: var(--primary); font-family: var(--font-mono); }
@@ -525,14 +532,17 @@
 .treatments-handoff { opacity: 0.85; }
 @keyframes treatment-reveal { from { opacity: 0; transform: translateY(-0.35rem); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 767px) {
-  .treatments-layout { margin-top: 3.5rem; }
-  .treatment-category-trigger { padding-block: 1.15rem; }
-  .treatment-detail { border-top: 1px solid var(--border); padding-top: 2rem; }
-  .treatment-image img { aspect-ratio: 4 / 3; }
+  .treatments-layout { margin-top: 3rem; }
+  .treatment-category-trigger { padding-block: 0.95rem; }
+  .treatment-category-trigger + div { padding-bottom: 1.25rem; }
+  .treatment-detail { border-top: 1px solid var(--border); padding-top: 1.5rem; }
+  .treatment-detail .treatment-image { aspect-ratio: 4 / 3; }
+  .treatment-detail .treatment-image img { aspect-ratio: 4 / 3; }
+  .treatments-handoff { margin-top: 4rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .treatment-category-trigger, .treatment-item, .treatment-image img { transition: none !important; }
-  .treatment-category-trigger + div { animation: none !important; }
+  .treatment-category-trigger + div, .treatment-detail { animation: none !important; }
 }
 .space-image-closing img { transform: scale(1.01); }
 .space-arrival .space-image img { transform: scale(0.99); transition: transform 1200ms cubic-bezier(0.16, 1, 0.3, 1); }
