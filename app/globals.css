@@ -318,6 +318,51 @@
   background: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' viewBox='0 0 800 1000' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 780C154 620 274 728 321 565C367 405 188 329 318 189C426 73 611 122 792 4' stroke='%230B7775' stroke-opacity='.5' stroke-width='1'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
 }
 .people-section > .mx-auto { position: relative; z-index: 1; }
+.people-section::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 13%;
+  right: -28%;
+  width: 72vw;
+  height: 72vw;
+  max-width: 64rem;
+  max-height: 64rem;
+  border: 1px solid color-mix(in oklch, var(--primary) 7%, transparent);
+  border-radius: 48% 52% 46% 54%;
+  pointer-events: none;
+  transform: rotate(-18deg) translate3d(0, 0, 0);
+  transition: transform 1600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.people-section.is-scrolled::after { transform: rotate(-15deg) translate3d(-14px, 12px, 0); }
+.people-principles { max-width: 23rem; }
+.people-film-arc {
+  position: absolute;
+  z-index: -1;
+  top: 14%;
+  right: -22%;
+  width: 138%;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in oklch, var(--primary) 8%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: rotate(24deg);
+}
+.people-film-frame {
+  transform: translateY(1rem) scale(0.985);
+  transition: box-shadow 1200ms ease, transform 1600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.people-film-frame.is-visible { transform: translateY(0) scale(1); }
+.people-film-frame:hover { transform: translateY(-4px) scale(1.002); }
+.people-film-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0.2rem;
+  border: 1px solid color-mix(in oklch, var(--background) 24%, transparent);
+  border-radius: 0.2rem;
+  pointer-events: none;
+  z-index: 3;
+}
 .people-principles { max-width: 23rem; }
 .people-stage { position: relative; }
 .people-film-column { position: relative; }
@@ -329,7 +374,31 @@
 .people-feature-label { opacity: 0.78; }
 .people-doctor-list { border-top: 1px solid var(--border); }
 .people-doctor-tab { transition: color 500ms ease, background-color 500ms ease, padding-left 500ms cubic-bezier(0.16, 1, 0.3, 1); }
-.people-doctor-tab:hover, .people-doctor-tab.is-active { padding-left: 0.75rem; color: var(--primary); }
+.people-doctor-tab::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 1px;
+  background: var(--primary);
+  transition: width 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.people-doctor-tab:hover, .people-doctor-tab:focus-visible, .people-doctor-tab.is-active { padding-left: 0.75rem; color: var(--primary); }
+.people-doctor-tab.is-active::before, .people-doctor-tab:hover::before, .people-doctor-tab:focus-visible::before { width: 4rem; }
+.people-doctor-tab:focus-visible { outline: 1px solid color-mix(in oklch, var(--primary) 70%, transparent); outline-offset: 0.25rem; }
+.people-care-title, .people-care-copy { transition: color 500ms ease, opacity 500ms ease; }
+.people-care-row::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 1px;
+  background: var(--primary);
+  transition: width 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.people-care-row:hover::after, .people-care-row:focus-within::after { width: 3.5rem; }
+.people-care-row:hover .people-care-title, .people-care-row:focus-within .people-care-title { color: var(--primary); }
+.people-care-row:hover .people-care-copy, .people-care-row:focus-within .people-care-copy { color: var(--foreground); }
 .people-doctor-tab:not(.is-active) { color: var(--foreground); }
 .people-tab-mark { color: var(--primary); font-family: var(--font-mono); font-size: 0.8rem; }
 .people-care-list { position: relative; }
@@ -339,9 +408,14 @@
 .people-handoff { position: relative; }
 @media (max-width: 639px) {
   .people-contour { top: 5%; left: -48%; width: 150%; height: 74%; opacity: 0.12; }
+  .people-section::after { top: 22%; right: -68%; width: 125vw; height: 125vw; opacity: 0.65; }
+  .people-film-arc { top: 18%; right: -38%; width: 155%; }
   .people-film-frame { margin-inline: auto; }
-  .people-doctor-tab:hover, .people-doctor-tab.is-active { padding-left: 0.35rem; }
+  .people-doctor-tab:hover, .people-doctor-tab:focus-visible, .people-doctor-tab.is-active { padding-left: 0.35rem; }
+  .people-doctor-tab.is-active::before, .people-doctor-tab:hover::before, .people-doctor-tab:focus-visible::before { width: 2.5rem; }
   .people-care-row:hover { padding-left: 0.35rem; }
+  .people-care-row { gap: 0.5rem; padding-block: 1.25rem; }
+  .people-care-row::after { margin-top: 0.25rem; }
 }
 
 /* THE SPACE — a quiet architectural walk-through */
@@ -723,9 +797,15 @@
   .idea-principle-copy,
   .idea-marker,
   .people-contour,
+  .people-section::after,
+  .people-film-arc,
   .people-film-frame,
   .people-doctor-tab,
+  .people-doctor-tab::before,
   .people-care-row,
+  .people-care-row::after,
+  .people-care-title,
+  .people-care-copy,
   .space-contour,
   .space-image img,
   .space-caption,

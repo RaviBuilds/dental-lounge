@@ -18,11 +18,22 @@ export function DoctorsSection() {
   const [isOpen, setIsOpen] = useState(false)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const modalVideoRef = useRef<HTMLVideoElement | null>(null)
+  const sectionRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
     video.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false))
+  }, [])
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+    const observer = new IntersectionObserver(([entry]) => {
+      section.classList.toggle('is-scrolled', entry.boundingClientRect.top < 0 && entry.isIntersecting)
+    }, { threshold: [0, 0.25] })
+    observer.observe(section)
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
@@ -48,7 +59,7 @@ export function DoctorsSection() {
   const selectedDoctor = doctors[selected]
 
   return (
-    <section id="craft" className="people-section relative overflow-hidden bg-stone py-24 scroll-mt-24 lg:py-36" aria-labelledby="doctors-title">
+    <section ref={sectionRef} id="craft" className="people-section relative overflow-hidden bg-stone py-24 scroll-mt-24 lg:py-36" aria-labelledby="doctors-title">
       <span id="doctors" className="absolute -top-24" aria-hidden="true" />
       <div className="people-contour" aria-hidden="true" />
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -83,9 +94,9 @@ export function DoctorsSection() {
                 {doctors.map((doctor, index) => {
                   const active = selected === index
                   return (
-                    <button key={doctor.name} type="button" role="tab" aria-selected={active} aria-controls="selected-doctor" onClick={() => setSelected(index)} className={`people-doctor-tab group flex w-full items-center justify-between border-b border-border py-5 text-left ${active ? 'is-active' : ''}`}>
+                    <button key={doctor.name} type="button" role="tab" aria-selected={active} aria-controls="selected-doctor" onClick={() => setSelected(index)} className={`people-doctor-tab group relative flex w-full items-center justify-between border-b border-border py-5 text-left ${active ? 'is-active' : ''}`}>
                       <span className="font-serif text-2xl font-light sm:text-3xl">{doctor.name}</span>
-                      <span className="people-tab-mark" aria-hidden="true">{active ? '—' : '+'}</span>
+                      <span className="flex items-center gap-3"><span className="kicker text-muted-foreground opacity-0 transition-opacity duration-500 group-[.is-active]:opacity-100">Selected</span><span className="people-tab-mark" aria-hidden="true">{active ? '—' : '+'}</span></span>
                     </button>
                   )
                 })}
@@ -95,14 +106,15 @@ export function DoctorsSection() {
 
           <div id="selected-doctor" role="tabpanel" aria-label={`Selected doctor: ${selectedDoctor.name}`} className="people-film-column lg:col-span-7 lg:col-start-6">
             <Reveal variant="clip" className="people-film-frame group relative mx-auto w-fit max-w-full overflow-hidden rounded-[0.35rem] border border-accent/45 bg-charcoal p-1 lg:mx-0">
+              <span className="people-film-arc" aria-hidden="true" />
               <div className="relative aspect-[9/16] h-[min(72vh,40rem)] max-h-[40rem] overflow-hidden rounded-[0.15rem] bg-charcoal sm:aspect-[4/5] lg:aspect-[4/5]">
                 <video ref={videoRef} className="absolute inset-0 h-full w-full object-cover" autoPlay muted loop playsInline preload="metadata" aria-label="DentaLounge doctors introducing their approach to care" onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)}>
                   <source src="/assets/doctors-intro.mp4" type="video/mp4" />
                 </video>
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/10 to-charcoal/10" />
-                <div className="absolute left-6 top-6 hidden items-center gap-3 text-background/70 sm:flex lg:left-10 lg:top-10"><span className="h-px w-10 bg-accent" /><span className="kicker">DentaLounge · Hyderabad</span></div>
+                <div className="absolute left-6 top-6 hidden items-center gap-3 text-background/70 sm:flex lg:left-10 lg:top-10"><span className="h-px w-10 bg-accent" /><span className="kicker">Authentic film · Dr. Taha Mir</span></div>
                 <div className="absolute inset-x-6 bottom-6 flex items-end justify-between gap-5 lg:inset-x-10 lg:bottom-10">
-                  <div><p className="kicker text-background/70">{selectedDoctor.name}</p></div>
+                  <div><p className="kicker text-background/70">Featured story · Dr. Taha Mir</p><p className="mt-1 text-xs text-background/55">Authentic DentaLounge introduction</p></div>
                   <div className="flex shrink-0 items-center gap-2 opacity-80 transition-opacity duration-500 group-hover:opacity-100 focus-within:opacity-100" aria-label="Video controls">
                     <button type="button" onClick={togglePlay} aria-label={isPlaying ? 'Pause introduction video' : 'Play introduction video'} className="inline-flex size-11 items-center justify-center rounded-full border border-background/45 bg-charcoal/35 text-background backdrop-blur-sm hover:bg-charcoal/65">{isPlaying ? <Pause className="size-4" /> : <Play className="ml-0.5 size-4 fill-current" />}</button>
                     <button type="button" onClick={toggleMute} aria-label={isMuted ? 'Unmute introduction video' : 'Mute introduction video'} className="hidden size-11 items-center justify-center rounded-full border border-background/45 bg-charcoal/35 text-background backdrop-blur-sm hover:bg-charcoal/65 sm:inline-flex">{isMuted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}</button>
@@ -115,12 +127,12 @@ export function DoctorsSection() {
         </div>
 
         <Reveal delay={160}>
-          <div className="people-care-list mt-24 border-y border-primary/20 lg:mt-36">
+          <div className="people-care-list mt-24 border-y border-primary/20 lg:mt-32">
             {carePrinciples.map(([index, title, copy]) => (
-              <div key={index} className="people-care-row grid gap-3 py-7 sm:grid-cols-[4rem_12rem_1fr] sm:items-baseline sm:gap-6">
+              <div key={index} className="people-care-row group grid gap-3 py-7 sm:grid-cols-[4rem_12rem_1fr] sm:items-baseline sm:gap-6">
                 <span className="kicker text-muted-foreground">{index}</span>
-                <h3 className="font-serif text-2xl font-light text-foreground">{title}</h3>
-                <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{copy}</p>
+                <h3 className="people-care-title font-serif text-2xl font-light text-foreground">{title}</h3>
+                <p className="people-care-copy max-w-md text-sm leading-relaxed text-muted-foreground">{copy}</p>
               </div>
             ))}
           </div>
