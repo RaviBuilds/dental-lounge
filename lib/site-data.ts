@@ -17,8 +17,8 @@ export const clinic = {
 export type NavLink = { label: string; href: string }
 
 export const navLinks: NavLink[] = [
-  { label: 'Experience', href: '#experience' },
-  { label: 'The Space', href: '#space' },
+  { label: 'Experience', href: '#craft' },
+  { label: 'Space', href: '#space' },
   { label: 'Doctors', href: '#doctors' },
   { label: 'Treatments', href: '#treatments' },
   { label: 'Transformations', href: '#transformations' },

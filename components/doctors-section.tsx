@@ -42,7 +42,8 @@ export function DoctorsSection() {
   }
 
   return (
-    <section id="doctors" className="relative overflow-hidden bg-stone py-24 lg:py-36" aria-labelledby="doctors-title">
+    <section id="craft" className="relative overflow-hidden bg-stone py-24 lg:py-36 scroll-mt-24" aria-labelledby="doctors-title">
+      <span id="doctors" className="absolute -top-24" aria-hidden="true" />
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
