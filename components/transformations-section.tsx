@@ -89,7 +89,7 @@ export function TransformationsSection() {
                 </div>
               </div>
             </Reveal>
-            <div className="mt-6 flex flex-col gap-4 border-t border-background/15 pt-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="transformations-case-note mt-6 flex flex-col gap-4 border-t border-background/15 pt-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="kicker text-background/45">One patient · three views</p>
                 <h3 className="mt-2 font-serif text-2xl">A cohesive transformation story</h3>
@@ -107,7 +107,7 @@ export function TransformationsSection() {
             <p className="kicker text-background/45">Examine the result</p>
             <div className="mt-5 flex gap-3 overflow-x-auto pb-2 lg:grid lg:grid-cols-3 lg:overflow-visible">
               {featuredAngles.map((item, index) => (
-                <button key={item.id} type="button" onClick={() => setAngle(index)} aria-current={index === angle} className={cn('group min-w-28 text-left', index === angle ? 'text-background' : 'text-background/50')}>
+                <button key={item.id} type="button" onClick={() => setAngle(index)} aria-current={index === angle} className={cn('transformations-angle-control group min-w-28 text-left', index === angle ? 'is-active text-background' : 'text-background/50')}>
                   <span className={cn('relative block aspect-[4/3] overflow-hidden rounded-sm ring-1 transition', index === angle ? 'ring-2 ring-accent' : 'ring-background/15 group-hover:ring-background/50')}>
                     <Image src={item.image} alt="" fill sizes="140px" className="object-cover transition duration-500 group-hover:scale-105" />
                   </span>
@@ -115,43 +115,54 @@ export function TransformationsSection() {
                 </button>
               ))}
             </div>
-            <div className="mt-10 border-l border-accent/60 pl-5">
-              <p className="font-serif text-2xl italic">The transformation is visible from every angle.</p>
+            <div className="transformations-case-context mt-10 border-l border-accent/60 pl-5">
+              <p className="kicker text-background/45">The case</p>
+              <p className="mt-4 font-serif text-2xl italic">The transformation is visible from every angle.</p>
               <p className="mt-4 text-sm leading-relaxed text-background/60">The same patient remains the focus throughout — a closer look at one documented result, not a mix of unrelated cases.</p>
+              <dl className="transformations-case-meta mt-6 grid max-w-sm grid-cols-2 gap-x-6 gap-y-3 border-t border-background/15 pt-4 text-sm">
+                <div><dt className="kicker text-background/40">Focus</dt><dd className="mt-1 text-background/70">Smile transformation</dd></div>
+                <div><dt className="kicker text-background/40">Views</dt><dd className="mt-1 text-background/70">Front · Profile · Smile</dd></div>
+                <div className="col-span-2"><dt className="kicker text-background/40">Evidence</dt><dd className="mt-1 text-background/70">Before / after documentation</dd></div>
+              </dl>
             </div>
           </div>
         </div>
 
-        <div className="mt-28 border-t border-background/15 pt-12 lg:mt-36">
+        <div className="mt-24 border-t border-background/15 pt-10 lg:mt-32">
           <Reveal><p className="kicker text-background/45">Clinical evidence</p></Reveal>
           <div className="mt-5 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <h3 className="max-w-xl font-serif text-3xl font-light sm:text-4xl">The details matter too.</h3>
             <p className="max-w-sm text-sm leading-relaxed text-background/60">Smile, teeth, and clinical detail — each view is presented as supplied, without unsupported claims.</p>
           </div>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {clinicalCases.map((item) => (
-              <figure key={item.label} className="group">
-                <div className="image-lift relative aspect-[4/5] overflow-hidden rounded-sm bg-black ring-1 ring-background/10"><Image src={item.image} alt={`${item.detail} at DentaLounge`} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw" className="object-cover" /></div>
+          <div className="transformations-evidence-grid mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-12 lg:gap-x-6">
+            {clinicalCases.map((item, index) => (
+              <figure key={item.label} className={cn('transformations-evidence-item group', index === 0 ? 'lg:col-span-6' : 'lg:col-span-2')}>
+                <div className={cn('image-lift relative overflow-hidden rounded-sm bg-black ring-1 ring-background/10', index === 0 ? 'aspect-[4/3]' : 'aspect-[4/5]')}><Image src={item.image} alt={`${item.detail} at DentaLounge`} fill sizes={index === 0 ? '(max-width: 1024px) 100vw, 50vw' : '(max-width: 1024px) 50vw, 18vw'} className="object-cover" /></div>
                 <figcaption className="mt-3 text-sm text-background/70"><span className="text-background">{item.label}</span><span className="mx-2 text-accent">·</span>{item.detail}</figcaption>
               </figure>
             ))}
           </div>
         </div>
 
-        <div className="mt-28 grid gap-10 border-t border-background/15 pt-12 lg:grid-cols-12 lg:items-center">
+        <div className="mt-24 grid gap-8 border-t border-background/15 pt-10 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-4">
-            <p className="kicker text-background/45">Separate clinical proof</p>
+            <p className="kicker text-accent">Separate case · X-ray evidence</p>
             <h3 className="mt-5 font-serif text-3xl font-light sm:text-4xl">From diagnosis to resolution.</h3>
             <p className="mt-4 text-sm leading-relaxed text-background/60">A wisdom-tooth X-ray comparison, shown separately from the featured smile transformation.</p>
           </div>
           <div className="lg:col-span-8"><div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-black ring-1 ring-background/10"><Image src="/assets/case-6-xray.jpg" alt="Wisdom-tooth X-ray comparison" fill sizes="(max-width: 1024px) 100vw, 66vw" className="object-contain" /></div></div>
         </div>
 
-        <div className="mt-28 border-t border-background/15 pt-12">
+        <div className="mt-24 border-t border-background/15 pt-10">
           <div className="flex items-end justify-between gap-6"><div><p className="kicker text-background/45">More documented cases</p><h3 className="mt-4 font-serif text-3xl font-light">A wider view of the work.</h3></div><div className="flex gap-2"><button type="button" onClick={() => moveCase(-1)} aria-label="Previous documented case" className="inline-flex size-10 items-center justify-center rounded-full border border-background/25 hover:bg-background/10"><ArrowLeft className="size-4" /></button><button type="button" onClick={() => moveCase(1)} aria-label="Next documented case" className="inline-flex size-10 items-center justify-center rounded-full border border-background/25 hover:bg-background/10"><ArrowRight className="size-4" /></button></div></div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">{additionalCases.map((item, index) => { const actual = (caseIndex + index) % additionalCases.length; const selected = additionalCases[actual]; return <figure key={`${selected.label}-${actual}`}><div className="image-lift relative aspect-[4/3] overflow-hidden rounded-sm bg-black"><Image src={selected.image} alt={`${selected.label} before and after`} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-contain" /></div><figcaption className="mt-3 text-sm text-background/70">{selected.label}</figcaption></figure> })}</div>
+          <div className="transformations-case-index mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-3">{additionalCases.map((item, index) => { const actual = (caseIndex + index) % additionalCases.length; const selected = additionalCases[actual]; return <figure key={`${selected.label}-${actual}`} className="group"><div className="image-lift relative aspect-[4/3] overflow-hidden bg-black"><Image src={selected.image} alt={`${selected.label} before and after`} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-contain transition-transform duration-700 group-hover:scale-[1.02]" /></div><figcaption className="mt-3 flex items-center gap-3 text-sm text-background/70"><span className="font-mono text-[10px] text-accent">{String(index + 1).padStart(2, '0')}</span><span>{selected.label}</span></figcaption></figure> })}</div>
         </div>
-        <p className="mt-24 text-center font-serif text-2xl italic text-background/70">Every case begins with listening.</p>
+        <div className="transformations-closing mt-24 flex flex-col items-center gap-7 text-center">
+          <p className="font-serif text-2xl italic text-background/70">Every case begins with listening.</p>
+          <a href="#contact" className="inline-flex items-center gap-3 border-b border-accent/70 pb-2 text-sm text-background transition-colors hover:text-accent focus-visible:outline focus-visible:outline-1 focus-visible:outline-accent focus-visible:outline-offset-4">
+            Begin with a consultation <ArrowRight className="size-4" aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </section>
   )

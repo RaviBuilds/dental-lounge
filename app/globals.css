@@ -508,6 +508,75 @@
 .space-image-chair img { transform: scale(1.005); }
 .space-image-chair:hover img { transform: scale(1.025); }
 
+/* Reviews — human proof, editorial hierarchy, and a calm next step. */
+.reviews-section { isolation: isolate; }
+.reviews-proof { min-width: 11rem; }
+.reviews-featured-quote { max-width: 52rem; }
+.reviews-support-item { min-width: 0; }
+.reviews-support-item article { min-height: 12rem; }
+.reviews-closing a { transition: color 250ms ease, border-color 250ms ease; }
+@media (max-width: 639px) {
+  .reviews-section { padding-block: 5rem; }
+  .reviews-proof { width: 100%; }
+  .reviews-feature { margin-top: 3.5rem; padding-top: 2rem; }
+  .reviews-featured-quote { margin-top: 1.5rem; padding-left: 1.35rem; }
+  .reviews-featured-quote blockquote { font-size: 1.75rem; }
+  .reviews-support { margin-top: 4.5rem; }
+  .reviews-support-grid { margin-top: 2rem; gap: 2rem; }
+  .reviews-support-item article { min-height: auto; padding-top: 1rem; }
+  .reviews-closing { margin-top: 4.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #reviews *, #reviews *::before, #reviews *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* Transformations — proof-of-work, quiet evidence, and a clear handoff. */
+.transformations-case-note { position: relative; }
+.transformations-case-context { max-width: 27rem; }
+.transformations-case-meta dt { letter-spacing: 0.18em; }
+.transformations-angle-control { position: relative; transition: color 300ms ease, opacity 300ms ease; }
+.transformations-angle-control::after { content: ''; position: absolute; left: 0; bottom: -0.6rem; width: 0; height: 1px; background: var(--accent); transition: width 300ms ease; }
+.transformations-angle-control.is-active::after { width: 2rem; }
+.transformations-angle-control:focus-visible { outline: 1px solid var(--accent); outline-offset: 0.35rem; }
+.transformations-evidence-item figcaption { max-width: 18rem; }
+.transformations-evidence-item:not(:first-child) { opacity: 0.82; }
+.transformations-case-index figure { min-width: 0; }
+.transformations-case-index figure:focus-within { outline: 1px solid var(--accent); outline-offset: 0.35rem; }
+.transformations-case-context::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 0;
+  height: 2.75rem;
+  width: 1px;
+  background: var(--accent);
+}
+.transformations-closing { position: relative; }
+.transformations-closing::before {
+  content: '';
+  width: 4rem;
+  height: 1px;
+  background: color-mix(in oklch, var(--accent) 70%, transparent);
+}
+@media (max-width: 639px) {
+  .transformations-case-context { margin-top: 2rem; }
+  .transformations-case-meta { gap: 0.75rem 1rem; }
+  .transformations-case-note { margin-top: 1.25rem; padding-top: 1rem; }
+  .transformations-case-note h3 { font-size: 1.35rem; }
+  .transformations-case-note .flex.items-center { gap: 0.5rem; }
+  .transformations-case-note .size-10 { width: 2.25rem; height: 2.25rem; }
+  .transformations-evidence-grid { margin-top: 2rem; gap: 2rem 1rem; }
+  .transformations-evidence-item:first-child { grid-column: 1 / -1; }
+  .transformations-evidence-item:first-child .image-lift { aspect-ratio: 5 / 3; }
+  .transformations-evidence-item:not(:first-child) { opacity: 0.92; }
+  .transformations-evidence-item:not(:first-child) .image-lift { aspect-ratio: 5 / 4; }
+  .transformations-case-index { margin-top: 2rem; }
+  .transformations-closing { margin-top: 5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #transformations *, #transformations *::before, #transformations *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
 /* Treatments — precise, visual, and editorial rather than card-based. */
 .treatments-editorial { overflow: hidden; }
 .treatments-layout { position: relative; }
