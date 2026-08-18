@@ -75,9 +75,12 @@ export function SpaceSection() {
             <p className="mt-4 max-w-sm font-serif text-3xl font-light leading-tight text-foreground">The setting is part of the treatment — calm, considered and close to nature.</p>
           </Reveal>
 
-          <Reveal variant="clip" delay={100} className="mt-14">
+          <Reveal variant="clip" delay={100} className="space-garden mt-14">
             <figure>
-              <SpaceImage src={spaces.garden.src} alt={spaces.garden.alt} sizes="100vw" className="aspect-[4/5] space-image-garden" />
+              <div className="space-garden-visual relative">
+                <SpaceImage src={spaces.garden.src} alt={spaces.garden.alt} sizes="100vw" className="aspect-[4/5] space-image-garden" />
+                <div className="space-garden-note" aria-hidden="true"><span>GARDEN / A CHANGE OF PACE</span><i /></div>
+              </div>
               <SpaceCaption index="02" label="Garden">Greenery that changes the pace of a clinical visit.</SpaceCaption>
             </figure>
           </Reveal>
@@ -86,8 +89,8 @@ export function SpaceSection() {
             <figure>
               <div className="space-feature-visual relative">
                 <SpaceImage src={spaces.treatment.src} alt={spaces.treatment.alt} sizes="100vw" className="aspect-[4/3]" />
-                <div className="space-annotation space-annotation-light" aria-hidden="true"><span>NATURAL LIGHT</span><i /></div>
-                <div className="space-annotation space-annotation-garden" aria-hidden="true"><span>GARDEN VIEW</span><i /></div>
+                <div className="space-annotation space-annotation-light" aria-hidden="true"><span>NATURAL LIGHT</span><i /><b /></div>
+                <div className="space-annotation space-annotation-garden" aria-hidden="true"><span>GARDEN VIEW</span><i /><b /></div>
               </div>
               <SpaceCaption index="03" label="Treatment room">Natural light, quiet materials and enough room to feel unhurried.</SpaceCaption>
             </figure>
@@ -140,9 +143,12 @@ export function SpaceSection() {
               <p className="mt-5 font-serif text-3xl font-light leading-tight text-primary sm:text-4xl">The setting is part of the treatment — calm, considered and close to nature.</p>
             </Reveal>
 
-            <Reveal variant="clip" delay={100} className="lg:col-span-4 lg:col-start-8 lg:pt-10">
+            <Reveal variant="clip" delay={100} className="space-garden lg:col-span-4 lg:col-start-8 lg:pt-10">
               <figure>
-                <SpaceImage src={spaces.garden.src} alt={spaces.garden.alt} sizes="33vw" className="aspect-[4/5] space-image-garden" />
+                <div className="space-garden-visual relative">
+                  <SpaceImage src={spaces.garden.src} alt={spaces.garden.alt} sizes="33vw" className="aspect-[4/5] space-image-garden" />
+                  <div className="space-garden-note" aria-hidden="true"><span>GARDEN / A CHANGE OF PACE</span><i /></div>
+                </div>
                 <SpaceCaption index="02" label="Garden">Greenery that changes the pace of a clinical visit.</SpaceCaption>
               </figure>
             </Reveal>
@@ -180,7 +186,7 @@ export function SpaceSection() {
           </div>
         </div>
 
-        <Reveal className="space-transition mt-24 border-t border-primary/20 pt-8 lg:mt-36 lg:flex lg:items-end lg:justify-between">
+        <Reveal className="space-transition mt-28 border-t border-primary/20 pt-10 lg:mt-44 lg:flex lg:items-end lg:justify-between">
           <p className="kicker text-primary">The experience continues</p>
           <p className="mt-3 max-w-md text-pretty font-serif text-3xl font-light leading-tight text-foreground lg:mt-0 lg:text-right">Not just a place you visit. A feeling you carry with you.</p>
         </Reveal>
