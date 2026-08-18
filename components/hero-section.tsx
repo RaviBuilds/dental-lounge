@@ -64,18 +64,20 @@ export function HeroSection() {
       aria-roledescription="cinematic sequence"
       className="relative h-[92svh] min-h-[34rem] w-full overflow-hidden bg-charcoal lg:h-[86vh] lg:max-h-[54rem]"
     >
-      {/* Scene panels */}
-      <SceneOne active={active === 0} index={0} current={active} reduced={reduced} />
-      <SceneTwo active={active === 1} index={1} current={active} reduced={reduced} />
-      <SceneThree
-        active={active === 2}
-        index={2}
-        current={active}
-        reduced={reduced}
-        onHoldChange={setHold}
-        onRequestNext={goNext}
-      />
-      <SceneFour active={active === 3} index={3} current={active} reduced={reduced} />
+      {/* Scene viewport: clips every translated panel to the actual hero bounds. */}
+      <div className="absolute inset-0 isolate overflow-hidden">
+        <SceneOne active={active === 0} index={0} current={active} reduced={reduced} />
+        <SceneTwo active={active === 1} index={1} current={active} reduced={reduced} />
+        <SceneThree
+          active={active === 2}
+          index={2}
+          current={active}
+          reduced={reduced}
+          onHoldChange={setHold}
+          onRequestNext={goNext}
+        />
+        <SceneFour active={active === 3} index={3} current={active} reduced={reduced} />
+      </div>
 
       {/* Persistent overlay: progress + controls (stays fixed while scenes slide) */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30">
@@ -165,7 +167,7 @@ function ScenePanel({
       role="tabpanel"
       aria-hidden={!active}
       style={style}
-      className={`absolute inset-0 h-full w-full will-change-transform ${
+      className={`absolute inset-0 h-full min-h-0 w-full min-w-0 max-w-none overflow-hidden will-change-transform ${
         active ? '' : 'pointer-events-none'
       } ${className ?? ''}`}
     >
