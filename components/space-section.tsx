@@ -65,7 +65,7 @@ export function SpaceSection() {
 
           <Reveal variant="clip" delay={120} className="space-arrival mt-10">
             <figure>
-              <SpaceImage src={spaces.entrance.src} alt={spaces.entrance.alt} sizes="100vw" className="aspect-[4/5]" />
+              <SpaceImage src={spaces.entrance.src} alt={spaces.entrance.alt} sizes="100vw" className="space-image-arrival aspect-[4/5]" />
               <SpaceCaption index="01" label="Arrival">A softer first impression, from the moment you walk through the gate.</SpaceCaption>
             </figure>
           </Reveal>
@@ -78,13 +78,13 @@ export function SpaceSection() {
           <Reveal variant="clip" delay={100} className="space-garden mt-14">
             <figure>
               <div className="space-garden-visual relative">
-                <SpaceImage src={spaces.garden.src} alt={spaces.garden.alt} sizes="100vw" className="aspect-[4/5] space-image-garden" />
+                <SpaceImage src={spaces.garden.src} alt={spaces.garden.alt} sizes="100vw" className="space-image-garden aspect-[3/4]" />
               </div>
               <SpaceCaption index="02" label="Garden">Greenery that changes the pace of a clinical visit.</SpaceCaption>
             </figure>
           </Reveal>
 
-          <Reveal variant="clip" delay={100} className="space-feature mt-16">
+          <Reveal variant="clip" delay={100} className="space-feature space-treatment-climax mt-16">
             <figure>
               <div className="space-feature-visual relative">
                 <SpaceImage src={spaces.treatment.src} alt={spaces.treatment.alt} sizes="100vw" className="aspect-[4/3]" />
@@ -96,7 +96,7 @@ export function SpaceSection() {
 
           <Reveal variant="clip" delay={100} className="mt-14">
             <figure>
-              <SpaceImage src={spaces.chair.src} alt={spaces.chair.alt} sizes="100vw" className="aspect-[4/5] space-image-chair" />
+              <SpaceImage src={spaces.chair.src} alt={spaces.chair.alt} sizes="100vw" className="space-image-chair aspect-[3/4]" />
               <SpaceCaption index="04" label="From the chair">A view that gives you something else to look at — and a moment to settle.</SpaceCaption>
             </figure>
           </Reveal>
@@ -109,7 +109,7 @@ export function SpaceSection() {
             <footer className="kicker mt-6 text-muted-foreground">Google review · Calm &amp; welcoming</footer>
           </Reveal>
 
-          <Reveal variant="clip" delay={100} className="space-closing mt-14">
+          <Reveal variant="clip" delay={100} className="space-closing space-experience-outro mt-14">
             <figure>
               <SpaceImage src={spaces.night.src} alt={spaces.night.alt} sizes="100vw" className="aspect-[4/5] space-image-closing" />
               <SpaceCaption index="06" label="Experience">Warm light for a softer arrival, before and after dark.</SpaceCaption>
@@ -150,7 +150,7 @@ export function SpaceSection() {
               </figure>
             </Reveal>
 
-            <Reveal variant="clip" delay={120} className="space-feature lg:col-span-10 lg:col-start-2">
+            <Reveal variant="clip" delay={120} className="space-feature space-treatment-climax lg:col-span-10 lg:col-start-2">
               <figure>
                 <div className="space-feature-visual relative">
                   <SpaceImage src={spaces.treatment.src} alt={spaces.treatment.alt} sizes="83vw" className="aspect-[16/9]" />
@@ -173,7 +173,7 @@ export function SpaceSection() {
               <footer className="kicker mt-6 text-muted-foreground">Google review · Calm &amp; welcoming</footer>
             </Reveal>
 
-            <Reveal variant="clip" delay={120} className="space-closing lg:col-span-8 lg:col-start-3 lg:pt-8">
+            <Reveal variant="clip" delay={120} className="space-closing space-experience-outro lg:col-span-8 lg:col-start-3 lg:pt-8">
               <figure>
                 <SpaceImage src={spaces.night.src} alt={spaces.night.alt} sizes="66vw" className="aspect-[16/9] space-image-closing" />
                 <SpaceCaption index="06" label="Experience">Warm light for a softer arrival, before and after dark.</SpaceCaption>
