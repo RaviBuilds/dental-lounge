@@ -35,7 +35,7 @@ export function TreatmentsSection() {
         <div className="treatments-layout mt-14 grid gap-10 lg:mt-24 lg:grid-cols-[minmax(17rem,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
           <nav aria-label="Treatment categories" className="treatment-categories">
             <div className="border-t border-border">
-              {[...treatmentCategories].sort((a, b) => Number(a.id !== category.id) - Number(b.id !== category.id)).map((item) => {
+              {treatmentCategories.map((item) => {
                 const isActive = item.id === category.id
                 return (
                   <div key={item.id} className="treatment-category border-b border-border">
