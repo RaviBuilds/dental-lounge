@@ -508,6 +508,33 @@
 .space-image-chair img { transform: scale(1.005); }
 .space-image-chair:hover img { transform: scale(1.025); }
 
+/* Transformations — proof-of-work, quiet evidence, and a clear handoff. */
+.transformations-case-note { position: relative; }
+.transformations-case-context { max-width: 27rem; }
+.transformations-case-context::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 0;
+  height: 2.75rem;
+  width: 1px;
+  background: var(--accent);
+}
+.transformations-closing { position: relative; }
+.transformations-closing::before {
+  content: '';
+  width: 4rem;
+  height: 1px;
+  background: color-mix(in oklch, var(--accent) 70%, transparent);
+}
+@media (max-width: 639px) {
+  .transformations-case-context { margin-top: 2.5rem; }
+  .transformations-closing { margin-top: 5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #transformations *, #transformations *::before, #transformations *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
 /* Treatments — precise, visual, and editorial rather than card-based. */
 .treatments-editorial { overflow: hidden; }
 .treatments-layout { position: relative; }

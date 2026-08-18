@@ -89,7 +89,7 @@ export function TransformationsSection() {
                 </div>
               </div>
             </Reveal>
-            <div className="mt-6 flex flex-col gap-4 border-t border-background/15 pt-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="transformations-case-note mt-6 flex flex-col gap-4 border-t border-background/15 pt-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="kicker text-background/45">One patient · three views</p>
                 <h3 className="mt-2 font-serif text-2xl">A cohesive transformation story</h3>
@@ -115,8 +115,9 @@ export function TransformationsSection() {
                 </button>
               ))}
             </div>
-            <div className="mt-10 border-l border-accent/60 pl-5">
-              <p className="font-serif text-2xl italic">The transformation is visible from every angle.</p>
+            <div className="transformations-case-context mt-10 border-l border-accent/60 pl-5">
+              <p className="kicker text-background/45">The case</p>
+              <p className="mt-4 font-serif text-2xl italic">The transformation is visible from every angle.</p>
               <p className="mt-4 text-sm leading-relaxed text-background/60">The same patient remains the focus throughout — a closer look at one documented result, not a mix of unrelated cases.</p>
             </div>
           </div>
@@ -140,7 +141,7 @@ export function TransformationsSection() {
 
         <div className="mt-28 grid gap-10 border-t border-background/15 pt-12 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-4">
-            <p className="kicker text-background/45">Separate clinical proof</p>
+            <p className="kicker text-accent">Separate case · X-ray evidence</p>
             <h3 className="mt-5 font-serif text-3xl font-light sm:text-4xl">From diagnosis to resolution.</h3>
             <p className="mt-4 text-sm leading-relaxed text-background/60">A wisdom-tooth X-ray comparison, shown separately from the featured smile transformation.</p>
           </div>
@@ -151,7 +152,12 @@ export function TransformationsSection() {
           <div className="flex items-end justify-between gap-6"><div><p className="kicker text-background/45">More documented cases</p><h3 className="mt-4 font-serif text-3xl font-light">A wider view of the work.</h3></div><div className="flex gap-2"><button type="button" onClick={() => moveCase(-1)} aria-label="Previous documented case" className="inline-flex size-10 items-center justify-center rounded-full border border-background/25 hover:bg-background/10"><ArrowLeft className="size-4" /></button><button type="button" onClick={() => moveCase(1)} aria-label="Next documented case" className="inline-flex size-10 items-center justify-center rounded-full border border-background/25 hover:bg-background/10"><ArrowRight className="size-4" /></button></div></div>
           <div className="mt-8 grid gap-4 sm:grid-cols-3">{additionalCases.map((item, index) => { const actual = (caseIndex + index) % additionalCases.length; const selected = additionalCases[actual]; return <figure key={`${selected.label}-${actual}`}><div className="image-lift relative aspect-[4/3] overflow-hidden rounded-sm bg-black"><Image src={selected.image} alt={`${selected.label} before and after`} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-contain" /></div><figcaption className="mt-3 text-sm text-background/70">{selected.label}</figcaption></figure> })}</div>
         </div>
-        <p className="mt-24 text-center font-serif text-2xl italic text-background/70">Every case begins with listening.</p>
+        <div className="transformations-closing mt-24 flex flex-col items-center gap-7 text-center">
+          <p className="font-serif text-2xl italic text-background/70">Every case begins with listening.</p>
+          <a href="#contact" className="inline-flex items-center gap-3 border-b border-accent/70 pb-2 text-sm text-background transition-colors hover:text-accent focus-visible:outline focus-visible:outline-1 focus-visible:outline-accent focus-visible:outline-offset-4">
+            Begin with a consultation <ArrowRight className="size-4" aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </section>
   )
