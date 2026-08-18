@@ -304,6 +304,46 @@
   animation: dl-hero-progress linear forwards;
 }
 
+/* THE PEOPLE — intimate, precise, and editorial */
+.people-section { isolation: isolate; }
+.people-contour {
+  position: absolute;
+  z-index: 0;
+  top: 4%;
+  left: -18%;
+  width: 72%;
+  height: 86%;
+  pointer-events: none;
+  opacity: 0.18;
+  background: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' viewBox='0 0 800 1000' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 780C154 620 274 728 321 565C367 405 188 329 318 189C426 73 611 122 792 4' stroke='%230B7775' stroke-opacity='.5' stroke-width='1'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+.people-section > .mx-auto { position: relative; z-index: 1; }
+.people-principles { max-width: 23rem; }
+.people-stage { position: relative; }
+.people-film-column { position: relative; }
+.people-film-frame {
+  box-shadow: 0 32px 90px color-mix(in oklch, var(--charcoal) 28%, transparent);
+  transition: box-shadow 900ms ease, transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.people-film-frame:hover { transform: translateY(-4px); box-shadow: 0 42px 105px color-mix(in oklch, var(--charcoal) 34%, transparent); }
+.people-feature-label { opacity: 0.78; }
+.people-doctor-list { border-top: 1px solid var(--border); }
+.people-doctor-tab { transition: color 500ms ease, background-color 500ms ease, padding-left 500ms cubic-bezier(0.16, 1, 0.3, 1); }
+.people-doctor-tab:hover, .people-doctor-tab.is-active { padding-left: 0.75rem; color: var(--primary); }
+.people-doctor-tab:not(.is-active) { color: var(--foreground); }
+.people-tab-mark { color: var(--primary); font-family: var(--font-mono); font-size: 0.8rem; }
+.people-care-list { position: relative; }
+.people-care-row { border-bottom: 1px solid var(--border); transition: padding-left 700ms cubic-bezier(0.16, 1, 0.3, 1), background-color 500ms ease; }
+.people-care-row:first-child { border-top: 0; }
+.people-care-row:hover { padding-left: 0.75rem; background: color-mix(in oklch, var(--background) 34%, transparent); }
+.people-handoff { position: relative; }
+@media (max-width: 639px) {
+  .people-contour { top: 5%; left: -48%; width: 150%; height: 74%; opacity: 0.12; }
+  .people-film-frame { margin-inline: auto; }
+  .people-doctor-tab:hover, .people-doctor-tab.is-active { padding-left: 0.35rem; }
+  .people-care-row:hover { padding-left: 0.35rem; }
+}
+
 /* THE SPACE — a quiet architectural walk-through */
 .space-narrative { isolation: isolate; }
 .space-contour {
@@ -682,6 +722,10 @@
   .idea-principle,
   .idea-principle-copy,
   .idea-marker,
+  .people-contour,
+  .people-film-frame,
+  .people-doctor-tab,
+  .people-care-row,
   .space-contour,
   .space-image img,
   .space-caption,
