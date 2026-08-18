@@ -64,18 +64,20 @@ export function HeroSection() {
       aria-roledescription="cinematic sequence"
       className="relative h-[92svh] min-h-[34rem] w-full overflow-hidden bg-charcoal lg:h-[86vh] lg:max-h-[54rem]"
     >
-      {/* Scene panels */}
-      <SceneOne active={active === 0} index={0} current={active} reduced={reduced} />
-      <SceneTwo active={active === 1} index={1} current={active} reduced={reduced} />
-      <SceneThree
-        active={active === 2}
-        index={2}
-        current={active}
-        reduced={reduced}
-        onHoldChange={setHold}
-        onRequestNext={goNext}
-      />
-      <SceneFour active={active === 3} index={3} current={active} reduced={reduced} />
+      {/* Scene viewport: clips every translated panel to the actual hero bounds. */}
+      <div className="absolute inset-0 isolate overflow-hidden">
+        <SceneOne active={active === 0} index={0} current={active} reduced={reduced} />
+        <SceneTwo active={active === 1} index={1} current={active} reduced={reduced} />
+        <SceneThree
+          active={active === 2}
+          index={2}
+          current={active}
+          reduced={reduced}
+          onHoldChange={setHold}
+          onRequestNext={goNext}
+        />
+        <SceneFour active={active === 3} index={3} current={active} reduced={reduced} />
+      </div>
 
       {/* Persistent overlay: progress + controls (stays fixed while scenes slide) */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30">
@@ -165,7 +167,7 @@ function ScenePanel({
       role="tabpanel"
       aria-hidden={!active}
       style={style}
-      className={`absolute inset-0 h-full w-full will-change-transform ${
+      className={`absolute inset-0 h-full min-h-0 w-full min-w-0 max-w-none overflow-hidden will-change-transform ${
         active ? '' : 'pointer-events-none'
       } ${className ?? ''}`}
     >
@@ -763,6 +765,11 @@ function SceneThree(props: SceneProps) {
 
 function SceneFour(props: SceneProps) {
   const { active, reduced } = props
+  const reveal = (delay: string) =>
+    reduced
+      ? ''
+      : `transition-all duration-700 ease-out ${active ? `translate-y-0 opacity-100 ${delay}` : 'translate-y-5 opacity-0'}`
+
   return (
     <ScenePanel {...props}>
       <Image
@@ -771,45 +778,42 @@ function SceneFour(props: SceneProps) {
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="object-cover object-center"
+        className={`dl-scene4-atmosphere object-cover object-center ${active ? 'opacity-100' : 'opacity-70'}`}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-charcoal/85 via-charcoal/45 to-charcoal/20" />
-      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-charcoal/25" />
+      <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/60 to-charcoal/35" />
+      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/25 to-charcoal/40" />
+      <div className={`dl-scene4-wash absolute inset-y-0 right-0 w-1/2 ${active ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true" />
 
       <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl items-center px-6 lg:px-10">
-        <div className="grid w-full items-center gap-8 pb-16 pt-24 sm:pt-28 lg:grid-cols-12 lg:gap-12 lg:pb-16 lg:pt-16">
-          {/* Text */}
-          <div className={`order-2 lg:order-1 lg:col-span-6 ${sceneContentClass(active, reduced)}`}>
-            <SceneKicker>Real Patient Case</SceneKicker>
-            <h2 className="mt-5 max-w-xl text-balance font-serif text-[2.3rem] font-light leading-[1.02] text-background sm:text-5xl lg:text-6xl">
+        <div className="grid w-full items-center gap-8 pb-20 pt-24 sm:pb-24 sm:pt-28 lg:grid-cols-12 lg:gap-16 lg:pb-16 lg:pt-16">
+          <div className="order-2 lg:order-1 lg:col-span-5">
+            <div className={reveal('delay-100')}>
+              <SceneKicker>Real Patient Case</SceneKicker>
+            </div>
+            <h2 className={`mt-5 max-w-xl text-balance font-serif text-[2.5rem] font-light leading-[0.98] text-background sm:text-5xl lg:text-[4.25rem] ${reveal('delay-200')}`}>
               Real treatment. Real <span className="italic text-accent">transformation.</span>
             </h2>
-            <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-background/85 sm:text-lg">
+            <p className={`mt-5 max-w-md text-pretty text-base leading-relaxed text-background/85 sm:text-lg ${reveal('delay-300')}`}>
               See what thoughtful treatment can change.
             </p>
-            <div className="mt-7 sm:mt-8">
+            <div className={`mt-7 sm:mt-8 ${reveal('delay-[400ms]')}`}>
               <PrimaryCta href="#transformations">See Our Results</PrimaryCta>
             </div>
           </div>
 
-          {/* Authentic composite before/after — one faithful artifact */}
-          <div className="order-1 flex justify-center lg:order-2 lg:col-span-6 lg:justify-end">
-            <figure
-              className={`relative w-fit max-w-full ${reduced ? '' : 'transition-all duration-700 ease-out'} ${
-                active || reduced ? 'translate-y-0 rotate-0 opacity-100 delay-150' : 'translate-y-5 opacity-0'
-              }`}
-            >
-              <div className="overflow-hidden rounded-[0.4rem] border border-background/25 bg-background/5 p-1.5 shadow-[0_28px_70px_color-mix(in_oklch,var(--charcoal)_50%,transparent)] backdrop-blur-sm">
+          <div className="order-1 flex justify-center lg:order-2 lg:col-span-7 lg:justify-end">
+            <figure className={`relative w-fit max-w-full ${reveal('delay-150')} ${reduced ? '' : 'lg:[perspective:1200px]'}`}>
+              <div className="dl-scene4-frame overflow-hidden rounded-[0.4rem] border border-background/30 bg-background/10 p-1.5 backdrop-blur-sm">
                 <Image
                   src="/assets/hero-transformation.jpg"
                   alt="Authentic DentaLounge patient shown before and after treatment, with the clinic's own Before and After labels"
                   width={1080}
                   height={1350}
-                  sizes="(max-width: 1023px) 78vw, 30vw"
-                  className="h-auto w-[76vw] max-w-[22rem] rounded-[0.25rem] sm:w-[52vw] lg:w-full lg:max-w-[24rem]"
+                  sizes="(max-width: 1023px) 78vw, 38vw"
+                  className="h-auto w-[74vw] max-w-[21rem] rounded-[0.25rem] sm:w-[48vw] lg:w-full lg:max-w-[27rem]"
                 />
               </div>
-              <figcaption className="mt-3 text-center text-[0.6rem] uppercase tracking-[0.24em] text-background/55 lg:text-left">
+              <figcaption className={`mt-3 text-center text-[0.6rem] uppercase tracking-[0.24em] text-background/60 lg:text-left ${reveal('delay-500')}`}>
                 Actual DentaLounge patient · unretouched result
               </figcaption>
             </figure>
