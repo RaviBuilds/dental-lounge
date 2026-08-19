@@ -508,6 +508,59 @@
 .space-image-chair img { transform: scale(1.005); }
 .space-image-chair:hover img { transform: scale(1.025); }
 
+/* Footer — a quiet, grounded last frame. */
+.site-footer { isolation: isolate; }
+.site-footer-brand, .site-footer-nav, .site-footer-visit { min-width: 0; }
+.site-footer-brand { position: relative; }
+.site-footer-link { display: inline-flex; transition: color 220ms ease, transform 220ms ease; }
+.site-footer-link:hover { transform: translateX(0.2rem); }
+.site-footer-visit address { max-width: 18rem; }
+.site-footer-phone { transition: color 220ms ease, border-color 220ms ease; }
+.site-footer-utility { color: color-mix(in oklch, var(--background) 48%, transparent); }
+@media (max-width: 639px) {
+  .site-footer { padding-block: 4.5rem; }
+  .site-footer-grid { gap: 3.5rem; }
+  .site-footer-brand p { max-width: 22rem; }
+  .site-footer-nav ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem 1.5rem; }
+  .site-footer-utility { margin-top: 3.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-footer *, .site-footer *::before, .site-footer *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* Contact — a calm final step, with the form leading the visit. */
+.contact-section { isolation: isolate; }
+.contact-location, .contact-form-column { min-width: 0; }
+.contact-form-panel { box-shadow: 0 18px 50px color-mix(in oklch, var(--foreground) 6%, transparent); }
+.contact-form-heading { border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+.contact-reassurance { color: color-mix(in oklch, var(--muted-foreground) 85%, transparent); }
+.contact-field { min-height: 3rem; }
+.contact-field:focus-visible { outline: 1px solid var(--primary); outline-offset: 2px; }
+.contact-action { transition: color 250ms ease, background-color 250ms ease, border-color 250ms ease, transform 250ms ease; }
+.contact-action-secondary, .contact-action-tertiary { border-radius: 0; padding-inline: 0.15rem; border-width: 0 0 1px; }
+.contact-action-support { font-size: 0.8rem; color: var(--muted-foreground); }
+.contact-action-tertiary { color: var(--muted-foreground); }
+.contact-map { background: var(--muted); box-shadow: 0 14px 36px color-mix(in oklch, var(--foreground) 5%, transparent); }
+.contact-map iframe { min-height: 18rem; filter: grayscale(0.35) contrast(0.95); }
+.contact-details address { font-size: 0.95rem; }
+.contact-section a:focus-visible, .contact-section button:focus-visible { outline: 1px solid var(--primary); outline-offset: 4px; }
+@media (max-width: 1023px) {
+  .contact-form-column { margin-bottom: 0.5rem; }
+}
+@media (max-width: 639px) {
+  .contact-section { padding-block: 5rem; }
+  .contact-grid { gap: 3.5rem; }
+  .contact-location { order: 2; }
+  .contact-form-column { order: 1; }
+  .contact-form-panel { padding: 1.5rem; }
+  .contact-actions { gap: 1rem 1.25rem; }
+  .contact-map { margin-top: 2.5rem; }
+  .contact-map iframe { min-height: 14rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #contact *, #contact *::before, #contact *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
 /* Reviews — human proof, editorial hierarchy, and a calm next step. */
 .reviews-section { isolation: isolate; }
 .reviews-proof { min-width: 11rem; }
