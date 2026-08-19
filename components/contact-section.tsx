@@ -35,17 +35,17 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="relative bg-background py-24 lg:py-36">
+    <section id="contact" className="contact-section relative bg-background py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="contact-grid grid gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Left: details + quick actions + map */}
-          <div className="lg:col-span-5">
+          <div className="contact-location order-2 lg:order-1 lg:col-span-5">
             <p className="kicker text-primary">Visit us</p>
             <h2 className="mt-6 text-balance font-serif text-4xl font-light leading-[1.05] text-foreground sm:text-5xl">
               The final step in the story.
             </h2>
 
-            <div className="mt-10 space-y-6">
+            <div className="contact-details mt-10 flex flex-col gap-6">
               <div className="flex items-start gap-4">
                 <MapPin className="mt-1 h-5 w-5 shrink-0 text-primary" />
                 <address className="not-italic leading-relaxed text-muted-foreground">
@@ -69,10 +69,10 @@ export function ContactSection() {
               </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="contact-actions mt-8 flex flex-wrap items-center gap-4">
               <a
                 href={`tel:${clinic.phoneRaw}`}
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-deep"
+                className="contact-action contact-action-primary inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-deep"
               >
                 <Phone className="h-4 w-4" /> Call
               </a>
@@ -80,7 +80,7 @@ export function ContactSection() {
                 href={`https://wa.me/${clinic.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:text-primary"
+                className="contact-action contact-action-support inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:text-primary"
               >
                 <MessageCircle className="h-4 w-4" /> WhatsApp
               </a>
@@ -88,13 +88,13 @@ export function ContactSection() {
                 href={mapsHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:text-primary"
+                className="contact-action contact-action-tertiary inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:text-primary"
               >
                 <MapPin className="h-4 w-4" /> Directions
               </a>
             </div>
 
-            <div className="mt-10 overflow-hidden rounded-sm border border-border">
+            <div className="contact-map mt-10 overflow-hidden rounded-sm border border-border">
               <iframe
                 title="Map to DentaLounge, Mehdipatnam"
                 src={`https://www.google.com/maps?q=${encodeURIComponent(clinic.mapsQuery)}&output=embed`}
@@ -108,8 +108,8 @@ export function ContactSection() {
           </div>
 
           {/* Right: form */}
-          <div className="lg:col-span-7">
-            <div className="rounded-sm border border-border bg-card p-8 lg:p-10">
+          <div className="contact-form-column order-1 lg:order-2 lg:col-span-7">
+            <div className="contact-form-panel rounded-sm border border-border bg-card p-8 lg:p-10">
               {sent ? (
                 <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
                   <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
@@ -129,12 +129,15 @@ export function ContactSection() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
+                <form onSubmit={handleSubmit} className="contact-form flex flex-col gap-6">
+                  <div className="contact-form-heading">
                     <h3 className="font-serif text-2xl text-foreground">Book a consultation</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">
+                    <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
                       Share a few details and we&apos;ll continue on WhatsApp — calm and
                       unhurried.
+                    </p>
+                    <p className="contact-reassurance mt-4 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                      No pressure · Just a first conversation
                     </p>
                   </div>
 
@@ -148,7 +151,7 @@ export function ContactSection() {
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="rounded-sm border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary"
+                        className="contact-field rounded-sm border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
                         placeholder="Full name"
                       />
                     </div>
@@ -162,7 +165,7 @@ export function ContactSection() {
                         type="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        className="rounded-sm border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary"
+                        className="contact-field rounded-sm border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
                         placeholder="+91"
                       />
                     </div>
@@ -176,7 +179,7 @@ export function ContactSection() {
                       id="interest"
                       value={interest}
                       onChange={(e) => setInterest(e.target.value)}
-                      className="rounded-sm border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary"
+                      className="contact-field rounded-sm border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
                     >
                       {treatmentOptions.map((option) => (
                         <option key={option}>{option}</option>
