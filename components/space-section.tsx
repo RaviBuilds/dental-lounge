@@ -38,7 +38,7 @@ function SpaceCaption({ index, label, children }: { index: string; label: string
 function SpaceImage({ src, alt, sizes, className = '' }: { src: string; alt: string; sizes: string; className?: string }) {
   return (
     <div className={`space-image relative overflow-hidden rounded-sm bg-muted ${className}`}>
-      <Image src={src} alt={alt} fill sizes={sizes} className="object-cover" />
+      <Image src={src} alt={alt} fill sizes={sizes} loading="eager" className="object-cover" />
     </div>
   )
 }

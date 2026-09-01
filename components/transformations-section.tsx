@@ -62,7 +62,7 @@ export function TransformationsSection() {
                     src={current.image}
                     alt={`${current.detail} at DentaLounge`}
                     fill
-                    priority={angle === 0}
+                    priority
                     sizes="(max-width: 1024px) 100vw, 66vw"
                     className="object-contain transition-transform duration-700"
                   />
@@ -109,7 +109,7 @@ export function TransformationsSection() {
               {featuredAngles.map((item, index) => (
                 <button key={item.id} type="button" onClick={() => setAngle(index)} aria-current={index === angle} className={cn('transformations-angle-control group min-w-28 text-left', index === angle ? 'is-active text-background' : 'text-background/50')}>
                   <span className={cn('relative block aspect-[4/3] overflow-hidden rounded-sm ring-1 transition', index === angle ? 'ring-2 ring-accent' : 'ring-background/15 group-hover:ring-background/50')}>
-                    <Image src={item.image} alt="" fill sizes="140px" className="object-cover transition duration-500 group-hover:scale-105" />
+                    <Image src={item.image} alt="" fill sizes="140px" loading="eager" className="object-cover transition duration-500 group-hover:scale-105" />
                   </span>
                   <span className="mt-3 block text-sm">{item.label}</span>
                 </button>
@@ -137,7 +137,7 @@ export function TransformationsSection() {
           <div className="transformations-evidence-grid mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-12 lg:gap-x-6">
             {clinicalCases.map((item, index) => (
               <figure key={item.label} className={cn('transformations-evidence-item group', index === 0 ? 'lg:col-span-6' : 'lg:col-span-2')}>
-                <div className={cn('image-lift relative overflow-hidden rounded-sm bg-black ring-1 ring-background/10', index === 0 ? 'aspect-[4/3]' : 'aspect-[4/5]')}><Image src={item.image} alt={`${item.detail} at DentaLounge`} fill sizes={index === 0 ? '(max-width: 1024px) 100vw, 50vw' : '(max-width: 1024px) 50vw, 18vw'} className="object-cover" /></div>
+                <div className={cn('image-lift relative overflow-hidden rounded-sm bg-black ring-1 ring-background/10', index === 0 ? 'aspect-[4/3]' : 'aspect-[4/5]')}><Image src={item.image} alt={`${item.detail} at DentaLounge`} fill sizes={index === 0 ? '(max-width: 1024px) 100vw, 50vw' : '(max-width: 1024px) 50vw, 18vw'} loading="eager" className="object-cover" /></div>
                 <figcaption className="mt-3 text-sm text-background/70"><span className="text-background">{item.label}</span><span className="mx-2 text-accent">·</span>{item.detail}</figcaption>
               </figure>
             ))}

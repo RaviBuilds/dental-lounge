@@ -33,6 +33,7 @@ export function ClinicVideoSection() {
           muted
           loop
           playsInline
+          preload="auto"
           poster="/assets/exterior-night.jpg"
           aria-hidden="true"
         >
@@ -85,6 +86,7 @@ export function ClinicVideoSection() {
               className="aspect-video w-full bg-black"
               controls
               playsInline
+              preload="auto"
               poster="/assets/exterior-night.jpg"
             >
               <source src="/assets/clinic-tour.mp4" type="video/mp4" />
