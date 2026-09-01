@@ -62,7 +62,7 @@ export function HeroSection() {
       id="top"
       aria-label="DentaLounge introduction"
       aria-roledescription="cinematic sequence"
-      className="relative min-h-[100svh] w-full overflow-hidden bg-charcoal lg:min-h-[100vh] lg:max-h-[54rem] [@media(max-height:700px)]:min-h-[600px] [@media(max-height:600px)]:min-h-[540px]"
+      className="relative min-h-[100svh] w-full overflow-hidden bg-charcoal lg:min-h-[100vh]"
     >
       {/* Scene viewport: clips every translated panel to the actual hero bounds. */}
       <div className="absolute inset-0 isolate overflow-hidden">
