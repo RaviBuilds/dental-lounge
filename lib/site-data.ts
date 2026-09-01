@@ -17,8 +17,8 @@ export const clinic = {
 export type NavLink = { label: string; href: string }
 
 export const navLinks: NavLink[] = [
-  { label: 'Experience', href: '#craft' },
-  { label: 'Space', href: '#space' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'The Space', href: '#space' },
   { label: 'Doctors', href: '#doctors' },
   { label: 'Treatments', href: '#treatments' },
   { label: 'Transformations', href: '#transformations' },
@@ -56,62 +56,40 @@ export const experienceSteps: ExperienceStep[] = [
 ]
 
 export type Treatment = {
-  id: string
-  name: string
-  categoryId: string
-  description: string
-  helpsWith: string[]
-  tags: string[]
-  image: string
-  alt: string
-}
-
-export type TreatmentCategory = {
-  id: string
-  number: string
-  name: string
+  category: string
   summary: string
-  treatments: Treatment[]
+  items: string[]
 }
 
-const treatmentImage = {
-  aligners: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/CLEAR%20ALIGNERS-SnBLwvxB9KN3tsdF3DSYYyKfenWZ9O.webp',
-  braces: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/BRACES-mjYMs5OCfU8NfhRuNmZ4kWFcuQsCpq.webp',
-  wisdom: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WISDOM%20TEETH-0FPftyK6K0M5FIc2GGnNeUsqcmqRGa.webp',
-  rootCanal: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROOT%20CANAL-9iJT17swesk2V0zx3oQopX2aKwz9Xv.webp',
-  crowns: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/DENTAL%20CROWNS-pmrXnYrIpGFfYhXBXPdIePK3Rsr9ZW.webp',
-  paediatric: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/PAEDIATRIC%20DENTISTRY-R3cjpOSz9mBTnrrKXW3IJ2lfyKwi1H.webp',
-  fillings: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/DENTAL%20FILLINGS-4NdCjr5DiO2Hga61FZVhwSxJpx5tFe.webp',
-  implants: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/DENTAL%20IMPLANTS-tgtNKbgKaASVye7QTiPyDRz70YNSew.webp',
-  consultation: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/DENTAL%20CONSULTATION-odyiJg30tukEg8uFA7WdrHIHEMKU9M.webp',
-  preventive: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/PREVENTIVE%20CARE-JomroPdxsYXPEW8vHkE10saCqHZae5.webp',
-}
-
-const makeTreatment = (id: string, name: string, categoryId: string, description: string, helpsWith: string[], tags: string[], image: string, alt: string): Treatment => ({ id, name, categoryId, description, helpsWith, tags, image, alt })
-
-export const treatmentCategories: TreatmentCategory[] = [
-  { id: 'alignment', number: '01', name: 'Smile & Alignment', summary: 'Care for straighter smiles, comfortable bites, and thoughtful orthodontic planning.', treatments: [
-    makeTreatment('aligners', 'Invisalign / Clear Aligners', 'alignment', 'Clear aligners are removable trays designed to gradually guide teeth toward a more even, comfortable position.', ['Teeth alignment', 'Crowding', 'Spacing', 'Bite-related concerns'], ['Orthodontics', 'Clear aligners', 'Smile alignment'], treatmentImage.aligners, 'A smiling woman holding a clear dental aligner beside her teeth'),
-    makeTreatment('braces', 'Braces', 'alignment', 'Braces use carefully planned pressure to guide teeth and support a more balanced bite over time.', ['Crowding', 'Spacing', 'Bite alignment'], ['Orthodontics', 'Braces', 'Alignment'], treatmentImage.braces, 'Close-up of teeth with traditional braces'),
-    makeTreatment('damon-braces', 'Damon Braces', 'alignment', 'Damon braces are a bracket-based orthodontic option used to address alignment and bite concerns.', ['Teeth alignment', 'Crowding', 'Bite concerns'], ['Orthodontics', 'Damon system'], treatmentImage.braces, 'Close-up of teeth with orthodontic braces'),
-    makeTreatment('orthodontic-treatment', 'Orthodontic Treatment', 'alignment', 'Orthodontic treatment brings assessment, planning, and different alignment approaches together around your goals.', ['Crooked teeth', 'Spacing', 'Crowding', 'Bite concerns'], ['Orthodontics', 'Treatment planning'], treatmentImage.aligners, 'Clear aligner held beside a smiling patient'),
-  ]},
-  { id: 'restorative', number: '02', name: 'Restorative Dentistry', summary: 'Treatment that helps restore everyday comfort, function, and the natural structure of teeth.', treatments: [
-    makeTreatment('fillings', 'Dental Fillings', 'restorative', 'A filling restores a tooth affected by decay or minor damage, helping bring back its shape and everyday function.', ['Tooth decay', 'Cavities', 'Minor tooth damage'], ['Restorative care', 'Tooth repair'], treatmentImage.fillings, 'Dental instrument placing a filling in a tooth'),
-    makeTreatment('crowns', 'Dental Crowns', 'restorative', 'A crown covers and supports a tooth that needs more protection than a filling can provide.', ['Damaged teeth', 'Worn teeth', 'Tooth structure'], ['Restorative care', 'Tooth protection'], treatmentImage.crowns, 'Dental crown being placed over a prepared tooth'),
-    makeTreatment('root-canal', 'Root Canal Treatment', 'restorative', 'Root canal treatment addresses inflammation or infection inside a tooth while keeping the natural tooth in place where possible.', ['Tooth infection', 'Inflammation', 'Deep decay'], ['Endodontics', 'Tooth preservation'], treatmentImage.rootCanal, 'Cross-section illustration of root canal treatment'),
-    makeTreatment('implants', 'Dental Implants', 'restorative', 'Dental implants are used to replace a missing tooth with a supported restoration, following an individual assessment.', ['Missing teeth', 'Chewing function', 'Tooth replacement'], ['Tooth replacement', 'Implant dentistry'], treatmentImage.implants, 'Cross-section illustration of a dental implant'),
-  ]},
-  { id: 'surgical', number: '03', name: 'Surgical Care', summary: 'Considered surgical care explained clearly before treatment begins.', treatments: [makeTreatment('wisdom-teeth', 'Wisdom Teeth Removal', 'surgical', 'Wisdom teeth removal may be recommended when a wisdom tooth is causing discomfort, crowding, or difficulty cleaning.', ['Wisdom tooth discomfort', 'Crowding', 'Hard-to-clean areas'], ['Oral surgery', 'Wisdom teeth'], treatmentImage.wisdom, 'Illustration of an impacted wisdom tooth')]},
-  { id: 'family', number: '04', name: 'Family & Pediatric', summary: 'Reassuring dental care for children and families, shaped around comfort and confidence.', treatments: [makeTreatment('paediatric', 'Paediatric Dentistry', 'family', 'Paediatric dentistry supports children with age-appropriate dental care, guidance, and a calm introduction to the clinic.', ['Growing teeth', 'Oral hygiene', 'Early concerns'], ['Children', 'Family care'], treatmentImage.paediatric, 'Dentist speaking with a child in a dental chair')]},
-  { id: 'general', number: '05', name: 'General Dental Care', summary: 'Everyday dental care that helps you understand and look after your oral health.', treatments: [
-    makeTreatment('consultations', 'Dental Consultations', 'general', 'A consultation creates space to understand your concerns, discuss options, and plan appropriate next steps.', ['New concerns', 'Treatment planning', 'Second opinions'], ['Consultation', 'Care planning'], treatmentImage.consultation, 'Dentist speaking with a patient during a consultation'),
-    makeTreatment('preventive', 'Preventive Care', 'general', 'Preventive care focuses on regular review and practical guidance to help you maintain your oral health.', ['Regular reviews', 'Oral hygiene', 'Early concerns'], ['Prevention', 'Oral health'], treatmentImage.preventive, 'Dentist examining a patient during a check-up'),
-    makeTreatment('routine', 'Routine Treatment', 'general', 'Routine treatment covers everyday dental needs identified during an assessment and discussed with you clearly.', ['Everyday dental needs', 'Oral health', 'Ongoing care'], ['General care', 'Dental health'], treatmentImage.preventive, 'Dentist examining a patient during a check-up'),
-  ]},
+export const treatments: Treatment[] = [
+  {
+    category: 'Smile & Alignment',
+    summary:
+      'Straighter, more confident smiles through modern orthodontics tailored to your goals.',
+    items: ['Invisalign / Clear Aligners', 'Braces', 'Damon Braces', 'Orthodontic Treatment'],
+  },
+  {
+    category: 'Restorative Dentistry',
+    summary:
+      'Careful, precise treatment to restore comfort, function and the natural look of your teeth.',
+    items: ['Root Canal Treatment', 'Crowns', 'Extractions'],
+  },
+  {
+    category: 'Surgical Care',
+    summary: 'Considered surgical treatment carried out gently and explained thoroughly.',
+    items: ['Wisdom Tooth Treatment', 'Surgical Extraction'],
+  },
+  {
+    category: 'Family & Pediatric',
+    summary: 'Patient, reassuring dental care for children and the whole family.',
+    items: ["Children's Dental Care", 'Pediatric Procedures', 'Preventive Guidance'],
+  },
+  {
+    category: 'General Dental Care',
+    summary: 'Everyday dental health, looked after with the same calm attention to detail.',
+    items: ['Dental Consultations', 'Preventive Care', 'Routine Treatment'],
+  },
 ]
-
-export const treatments = treatmentCategories
 
 export type Doctor = { name: string }
 
