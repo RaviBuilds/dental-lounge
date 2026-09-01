@@ -119,10 +119,10 @@
     transform: translateY(0);
   }
 
+  /* Never hide image content if the observer is delayed or unavailable. */
   .reveal-clip {
-    clip-path: inset(0 0 100% 0);
+    clip-path: inset(0 0 0 0);
     transition: clip-path 1.3s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: clip-path;
   }
   .reveal-clip.is-visible {
     clip-path: inset(0 0 0 0);

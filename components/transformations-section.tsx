@@ -52,7 +52,7 @@ export function TransformationsSection() {
                       'object-contain transition-opacity duration-700',
                       i === active ? 'opacity-100' : 'opacity-0',
                     )}
-                    priority={i === 0}
+                    loading="eager"
                   />
                 ))}
               </div>
@@ -109,6 +109,7 @@ export function TransformationsSection() {
                     alt=""
                     fill
                     sizes="120px"
+                    loading="eager"
                     className={cn(
                       'object-cover transition-all duration-500 group-hover:scale-105',
                       i === active ? 'opacity-100' : 'opacity-70',
