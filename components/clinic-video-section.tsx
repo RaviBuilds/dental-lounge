@@ -33,6 +33,7 @@ export function ClinicVideoSection() {
           muted
           loop
           playsInline
+          preload="auto"
           poster="/assets/exterior-night.jpg"
           aria-hidden="true"
         >

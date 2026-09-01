@@ -48,9 +48,11 @@ export function SiteNav() {
             >
               <Image
                 src="/assets/dentalounge-logo.jpg"
-                alt=""
+                alt="DentaLounge logo"
                 width={40}
                 height={40}
+                priority={true}
+                loading="eager"
                 className="h-10 w-10 rounded-full object-cover"
               />
             </span>

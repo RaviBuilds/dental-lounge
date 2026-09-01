@@ -62,7 +62,7 @@ export function HeroSection() {
       id="top"
       aria-label="DentaLounge introduction"
       aria-roledescription="cinematic sequence"
-      className="relative h-[92svh] min-h-[34rem] w-full overflow-hidden bg-charcoal lg:h-[86vh] lg:max-h-[54rem]"
+      className="relative min-h-[100svh] w-full overflow-hidden bg-charcoal lg:min-h-[100vh] lg:max-h-[54rem] [@media(max-height:700px)]:min-h-[600px] [@media(max-height:600px)]:min-h-[540px]"
     >
       {/* Scene viewport: clips every translated panel to the actual hero bounds. */}
       <div className="absolute inset-0 isolate overflow-hidden">
@@ -228,6 +228,7 @@ function SceneOne(props: SceneProps) {
         muted
         loop
         playsInline
+        preload="auto"
         poster="/assets/exterior-night.jpg"
         aria-hidden="true"
       >
@@ -238,21 +239,21 @@ function SceneOne(props: SceneProps) {
       <div className="absolute -right-20 top-1/4 hidden h-[26rem] w-[26rem] rounded-[48%_52%_55%_45%] border border-accent/25 lg:block" aria-hidden="true" />
 
       <div className="relative z-10 flex h-full items-end">
-        <div className="mx-auto w-full max-w-7xl px-6 pb-20 sm:pb-24 lg:px-10 lg:pb-28">
+        <div className="mx-auto w-full max-w-7xl px-6 pb-20 sm:pb-24 lg:px-10 lg:pb-28 [@media(max-height:800px)]:pb-18 [@media(max-height:800px)]:sm:pb-20 [@media(max-height:700px)]:pb-16 [@media(max-height:700px)]:sm:pb-18 [@media(max-height:600px)]:pb-14">
           <div className={`max-w-3xl ${sceneContentClass(active, reduced)}`}>
             <SceneKicker>
               <MapPin className="size-3.5" aria-hidden="true" />
               Mehdipatnam · Hyderabad
             </SceneKicker>
-            <h1 className="mt-5 max-w-3xl text-balance font-serif text-[3.25rem] font-light leading-[0.94] text-background sm:text-6xl lg:text-8xl">
+            <h1 className="mt-5 max-w-3xl text-pretty font-serif text-[3.25rem] font-light leading-[0.94] text-background sm:text-6xl lg:text-8xl [@media(max-height:800px)]:text-[3rem] [@media(max-height:800px)]:sm:text-[3.5rem] [@media(max-height:800px)]:lg:text-[6.5rem] [@media(max-height:700px)]:mt-4 [@media(max-height:700px)]:text-[2.75rem] [@media(max-height:700px)]:sm:text-[3.25rem] [@media(max-height:700px)]:lg:text-[5.5rem] [@media(max-height:600px)]:mt-3 [@media(max-height:600px)]:text-[2.5rem] [@media(max-height:600px)]:sm:text-[3rem] [@media(max-height:600px)]:lg:text-[4.75rem]">
               Dentistry,
               <br />
               without the <span className="italic text-accent">stress.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-background/85 sm:mt-7 sm:text-lg">
+            <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-background/85 sm:mt-7 sm:text-lg [@media(max-height:700px)]:mt-4 [@media(max-height:700px)]:text-[0.9375rem] [@media(max-height:600px)]:mt-3 [@media(max-height:600px)]:text-sm">
               A calmer approach to modern dentistry, designed around you — where clinical excellence meets a garden, glass and quiet warmth.
             </p>
-            <div className="mt-7 flex flex-wrap items-center gap-3 sm:mt-9 sm:gap-4">
+            <div className="mt-7 flex flex-wrap items-center gap-3 sm:mt-9 sm:gap-4 [@media(max-height:700px)]:mt-5 [@media(max-height:600px)]:mt-4">
               <PrimaryCta href="#contact">Book a Consultation</PrimaryCta>
               <SecondaryCta href="#experience">Explore DentaLounge</SecondaryCta>
             </div>
@@ -315,7 +316,8 @@ function SceneTwo(props: SceneProps) {
             src="/assets/hero-garden.jpg"
             alt="DentaLounge glass treatment rooms opening onto a lush green garden at dusk"
             fill
-            priority={false}
+            priority={true}
+            loading="eager"
             sizes="100vw"
             className="object-cover object-[62%_78%] sm:object-[center_74%] lg:object-[center_70%]"
           />
@@ -332,24 +334,24 @@ function SceneTwo(props: SceneProps) {
       />
 
       <div className="relative z-10 flex h-full items-end">
-        <div className="mx-auto w-full max-w-7xl px-6 pb-20 sm:pb-24 lg:px-10 lg:pb-28">
+        <div className="mx-auto w-full max-w-7xl px-6 pb-20 sm:pb-24 lg:px-10 lg:pb-28 [@media(max-height:800px)]:pb-18 [@media(max-height:800px)]:sm:pb-20 [@media(max-height:700px)]:pb-16 [@media(max-height:700px)]:sm:pb-18 [@media(max-height:600px)]:pb-14">
           <div className="max-w-2xl">
             <div className={label.className} style={label.style}>
               <SceneKicker>The Space</SceneKicker>
             </div>
             <h2
               style={heading.style}
-              className={`mt-5 max-w-xl text-balance font-serif text-[2.75rem] font-light leading-[0.98] text-background sm:text-6xl lg:text-7xl ${heading.className}`}
+              className={`mt-5 max-w-xl text-pretty font-serif text-[2.75rem] font-light leading-[0.98] text-background sm:text-6xl lg:text-7xl [@media(max-height:800px)]:text-[2.5rem] [@media(max-height:800px)]:sm:text-[3.25rem] [@media(max-height:800px)]:lg:text-[5.5rem] [@media(max-height:700px)]:mt-4 [@media(max-height:700px)]:text-[2.25rem] [@media(max-height:700px)]:sm:text-[3rem] [@media(max-height:700px)]:lg:text-[4.75rem] [@media(max-height:600px)]:mt-3 [@media(max-height:600px)]:text-[2rem] [@media(max-height:600px)]:sm:text-[2.75rem] [@media(max-height:600px)]:lg:text-[4rem] ${heading.className}`}
             >
               A dental clinic that doesn&apos;t <span className="italic text-accent">feel</span> like one.
             </h2>
             <p
               style={copy.style}
-              className={`mt-6 max-w-lg text-pretty text-base leading-relaxed text-background/90 sm:text-lg ${copy.className}`}
+              className={`mt-6 max-w-lg text-pretty text-base leading-relaxed text-background/90 sm:text-lg [@media(max-height:700px)]:mt-4 [@media(max-height:700px)]:text-[0.9375rem] [@media(max-height:600px)]:mt-3 [@media(max-height:600px)]:text-sm ${copy.className}`}
             >
               Glass treatment rooms. Garden views. A quieter way to experience care.
             </p>
-            <div style={cta.style} className={`mt-8 sm:mt-9 ${cta.className}`}>
+            <div style={cta.style} className={`mt-8 sm:mt-9 [@media(max-height:700px)]:mt-6 [@media(max-height:600px)]:mt-5 ${cta.className}`}>
               <SecondaryCta href="#space">Explore DentaLounge</SecondaryCta>
             </div>
             {/* Restrained editorial metadata — a quiet differentiator, not a stat card */}
@@ -569,6 +571,7 @@ function SceneThree(props: SceneProps) {
           src="/assets/hero-doctor-bg.webp"
           alt=""
           fill
+          loading="lazy"
           sizes="100vw"
           aria-hidden="true"
           className="scale-105 object-cover object-center blur-[2px] lg:blur-[3px]"
@@ -585,20 +588,20 @@ function SceneThree(props: SceneProps) {
       />
 
       <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl items-start px-6 lg:items-center lg:px-10">
-        <div className="grid w-full items-center gap-6 pb-14 pt-24 sm:pt-28 lg:grid-cols-12 lg:gap-10 lg:pb-16 lg:pt-16">
+        <div className="grid w-full items-center gap-6 pb-14 pt-24 sm:pt-28 lg:grid-cols-12 lg:gap-10 lg:pb-16 lg:pt-16 [@media(max-height:800px)]:gap-5 [@media(max-height:800px)]:pb-12 [@media(max-height:800px)]:pt-20 [@media(max-height:700px)]:pb-10 [@media(max-height:700px)]:pt-18 [@media(max-height:600px)]:pb-8 [@media(max-height:600px)]:pt-16">
           {/* Text */}
           <div className={`order-2 lg:order-1 lg:col-span-6 ${sceneContentClass(active, reduced)}`}>
             <SceneKicker>The People</SceneKicker>
-            <h2 className="mt-5 max-w-xl text-balance font-serif text-[2.3rem] font-light leading-[1.02] text-background sm:text-5xl lg:text-6xl">
+            <h2 className="mt-5 max-w-xl text-pretty font-serif text-[2.3rem] font-light leading-[1.02] text-background sm:text-5xl lg:text-6xl [@media(max-height:800px)]:text-[2.1rem] [@media(max-height:800px)]:sm:text-[2.75rem] [@media(max-height:800px)]:lg:text-[4.5rem] [@media(max-height:700px)]:mt-4 [@media(max-height:700px)]:text-[2rem] [@media(max-height:700px)]:sm:text-[2.5rem] [@media(max-height:700px)]:lg:text-[4rem] [@media(max-height:600px)]:mt-3 [@media(max-height:600px)]:text-[1.875rem] [@media(max-height:600px)]:sm:text-[2.25rem] [@media(max-height:600px)]:lg:text-[3.5rem]">
               Before we treat your smile, we <span className="italic text-accent">listen</span> to you.
             </h2>
-            <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-background/85 sm:text-lg">
+            <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-background/85 sm:text-lg [@media(max-height:700px)]:mt-3 [@media(max-height:700px)]:text-[0.9375rem] [@media(max-height:600px)]:mt-2 [@media(max-height:600px)]:text-sm">
               Thoughtful care begins with understanding the person in the chair.
             </p>
-            <p className="mt-6 text-[0.65rem] uppercase tracking-[0.24em] text-background/55">
+            <p className="mt-6 text-[0.65rem] uppercase tracking-[0.24em] text-background/55 [@media(max-height:700px)]:mt-4 [@media(max-height:600px)]:mt-3">
               Professional · Gentle · Patient · Empathetic
             </p>
-            <div className="mt-7 sm:mt-8">
+            <div className="mt-7 sm:mt-8 [@media(max-height:700px)]:mt-5 [@media(max-height:600px)]:mt-4">
               <PrimaryCta href="#doctors">Meet the Team</PrimaryCta>
             </div>
           </div>
@@ -776,6 +779,7 @@ function SceneFour(props: SceneProps) {
         src="/assets/hero-proof-bg.webp"
         alt=""
         fill
+        loading="lazy"
         sizes="100vw"
         aria-hidden="true"
         className={`dl-scene4-atmosphere object-cover object-center ${active ? 'opacity-100' : 'opacity-70'}`}
@@ -785,18 +789,18 @@ function SceneFour(props: SceneProps) {
       <div className={`dl-scene4-wash absolute inset-y-0 right-0 w-1/2 ${active ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true" />
 
       <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl items-center px-6 lg:px-10">
-        <div className="grid w-full items-center gap-8 pb-20 pt-24 sm:pb-24 sm:pt-28 lg:grid-cols-12 lg:gap-16 lg:pb-16 lg:pt-16">
+        <div className="grid w-full items-center gap-8 pb-20 pt-24 sm:pb-24 sm:pt-28 lg:grid-cols-12 lg:gap-16 lg:pb-16 lg:pt-16 [@media(max-height:800px)]:gap-6 [@media(max-height:800px)]:pb-18 [@media(max-height:800px)]:pt-22 [@media(max-height:700px)]:pb-16 [@media(max-height:700px)]:pt-20 [@media(max-height:600px)]:pb-14 [@media(max-height:600px)]:pt-18">
           <div className="order-2 lg:order-1 lg:col-span-5">
             <div className={reveal('delay-100')}>
               <SceneKicker>Real Patient Case</SceneKicker>
             </div>
-            <h2 className={`mt-5 max-w-xl text-balance font-serif text-[2.5rem] font-light leading-[0.98] text-background sm:text-5xl lg:text-[4.25rem] ${reveal('delay-200')}`}>
+            <h2 className={`mt-5 max-w-xl text-pretty font-serif text-[2.5rem] font-light leading-[0.98] text-background sm:text-5xl lg:text-[4.25rem] [@media(max-height:800px)]:text-[2.25rem] [@media(max-height:800px)]:sm:text-[2.75rem] [@media(max-height:800px)]:lg:text-[3.75rem] [@media(max-height:700px)]:text-[2rem] [@media(max-height:700px)]:sm:text-[2.5rem] [@media(max-height:700px)]:lg:text-[3.25rem] [@media(max-height:600px)]:text-[1.875rem] [@media(max-height:600px)]:sm:text-[2.25rem] [@media(max-height:600px)]:lg:text-[3rem] [@media(max-height:700px)]:mt-4 [@media(max-height:600px)]:mt-3 ${reveal('delay-200')}`}>
               Real treatment. Real <span className="italic text-accent">transformation.</span>
             </h2>
-            <p className={`mt-5 max-w-md text-pretty text-base leading-relaxed text-background/85 sm:text-lg ${reveal('delay-300')}`}>
+            <p className={`mt-5 max-w-md text-pretty text-base leading-relaxed text-background/85 sm:text-lg [@media(max-height:700px)]:mt-3 [@media(max-height:600px)]:mt-2 [@media(max-height:700px)]:text-[0.9375rem] [@media(max-height:600px)]:text-sm ${reveal('delay-300')}`}>
               See what thoughtful treatment can change.
             </p>
-            <div className={`mt-7 sm:mt-8 ${reveal('delay-[400ms]')}`}>
+            <div className={`mt-7 sm:mt-8 [@media(max-height:700px)]:mt-5 [@media(max-height:600px)]:mt-4 ${reveal('delay-[400ms]')}`}>
               <PrimaryCta href="#transformations">See Our Results</PrimaryCta>
             </div>
           </div>
@@ -809,6 +813,8 @@ function SceneFour(props: SceneProps) {
                   alt="Authentic DentaLounge patient shown before and after treatment, with the clinic's own Before and After labels"
                   width={1080}
                   height={1350}
+                  priority={true}
+                  loading="eager"
                   sizes="(max-width: 1023px) 78vw, 38vw"
                   className="h-auto w-[74vw] max-w-[21rem] rounded-[0.25rem] sm:w-[48vw] lg:w-full lg:max-w-[27rem]"
                 />
