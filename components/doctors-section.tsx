@@ -83,8 +83,8 @@ export function DoctorsSection() {
           </Reveal>
         </div>
 
-        <div className="people-stage people-story-stage mt-16 grid gap-10 lg:mt-24 lg:grid-cols-12 lg:items-start lg:gap-16">
-          <div className="lg:col-span-4 lg:pt-8">
+        <div className="people-stage people-story-stage mt-16 grid gap-10 md:grid-cols-12 md:items-start md:gap-8 lg:mt-24 lg:gap-16">
+          <div className="md:col-span-5 md:pt-8 lg:col-span-4">
             <Reveal delay={120}>
               <div className="people-feature-label mb-6 flex items-center gap-3"><span className="h-px w-10 bg-primary" /><span className="kicker text-primary">Featured story · Dr. Taha Mir</span></div>
               <p className="max-w-sm font-serif text-2xl font-light leading-snug text-foreground sm:text-3xl">Before we treat your smile, we listen to you.</p>
@@ -104,7 +104,7 @@ export function DoctorsSection() {
             </Reveal>
           </div>
 
-          <div id="selected-doctor" role="tabpanel" aria-label={`Selected doctor: ${selectedDoctor.name}`} className="people-film-column lg:col-span-7 lg:col-start-6">
+          <div id="selected-doctor" role="tabpanel" aria-label={`Selected doctor: ${selectedDoctor.name}`} className="people-film-column md:col-span-7 md:col-start-6 lg:col-span-7 lg:col-start-6">
             <Reveal variant="clip" className="people-film-frame group relative mx-auto w-fit max-w-full overflow-hidden rounded-[0.35rem] border border-accent/45 bg-charcoal p-1 lg:mx-0">
               <span className="people-film-arc" aria-hidden="true" />
               <div className="relative aspect-[9/16] h-[min(72vh,40rem)] max-h-[40rem] overflow-hidden rounded-[0.15rem] bg-charcoal sm:aspect-[4/5] lg:aspect-[4/5]">
